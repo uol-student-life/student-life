@@ -1,5 +1,8 @@
 <template>
   <div>
-    <NuxtWelcome />
+    <ClientOnly>
+      <Editor />
+    </ClientOnly>
   </div>
 </template>
+
