@@ -37,3 +37,25 @@ npm run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## Database Schema Migration (Atlas)
+
+This project uses declarative database schema migration using [Atlas](https://atlasgo.io/).
+
+All schemas are defined in `./database` directory. Refer to [HCL Schema Reference](https://atlasgo.io/atlas-schema/hcl) for more information.
+
+To install the Atlas CLI, refer to [Atlas CLI](https://atlasgo.io/getting-started).
+
+To apply schema migration in your local environment, run:
+
+```bash
+atlas schema apply --env dev
+```
+
+By default, atlas will apply schema migration to your mysql instance running on your `localhost` at port `3306` with username `root` and password `password`.
+
+You can specify a different value by adding `--var host={} port={} username={} password={}` flag. The above command is equivalent to:
+
+```bash
+atlas schema apply --env dev --var host=localhost port=3306 username=root password=password
+```
