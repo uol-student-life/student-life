@@ -2,6 +2,40 @@
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
+## Requirements
+
+You will need the following:
+
+- [Node.js](https://nodejs.org/en/download/) (v16 or newer)
+
+Recommended to use [nvm](https://github.com/nvm-sh/nvm) to manage your Node.js versions.
+
+To install nvm, run:
+
+> Mac (with homebrew)
+
+```bash
+brew install nvm
+```
+
+> Windows (with chocolatey)
+
+```bash
+choco install nvm
+```
+
+To install Node.js v16 with nvm, run:
+
+```bash
+nvm install 16
+```
+
+To use Node.js v16 with nvm, run:
+
+```bash
+nvm use 16
+```
+
 ## Setup
 
 Make sure to install the dependencies:
