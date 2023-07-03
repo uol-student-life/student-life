@@ -31,4 +31,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: uolstudentlife/uol-student-life:latest
+          tags: uolstudentlife/student-life:latest
