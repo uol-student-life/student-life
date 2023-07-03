@@ -46,7 +46,7 @@ services:
 
   # this is to run the entrypoint command using `mc` to initial setup the objstore bucket and set policy
   minioclient:
-    image: minio/mc:RELEASE.2022-10-06T01-20-06Z  # please pin version
+    image: minio/mc:RELEASE.2023-06-28T21-54-17Z  # please pin version
     env_file: ./docker.env
     depends_on:
       s3:
