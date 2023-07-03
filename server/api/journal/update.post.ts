@@ -27,8 +27,8 @@ export default defineEventHandler(async (event) => {
 
   if (!existingJournal) {
     throw createError({
-      statusCode: 400,
-      message: "Journal does not exist for this date",
+      statusCode: 404,
+      message: "Journal not found",
     });
   }
 
