@@ -1,0 +1,42 @@
+### Locals
+@HOST = localhost:3000
+
+### Journal
+
+# @name createJournal
+# @prompt journalDate date of journal in YYYY-MM-DD format
+# @prompt content content of journal entry
+POST /api/journal HTTP/1.1
+Host: {{HOST}}
+Accept: application/json, text/html
+Content-Type: application/json
+
+{
+    "journalDate": "{{journalDate}}",
+    "content": "{{content}}"
+}
+
+### 
+
+# @name getJournal
+# @prompt id id of journal entry
+GET /api/journal?id={{id}} HTTP/1.1
+Host: {{HOST}}
+
+###
+
+# @name getJournals
+GET /api/journals HTTP/1.1
+Host: {{HOST}}
+
+###
+
+# @name updateJournal
+# @prompt id id of journal entry
+# @prompt content updated content of journal entry
+POST /api/journal/update?id={{id}} HTTP/1.1
+Host: {{HOST}}
+
+{
+    "content": "{{content}}"
+}
