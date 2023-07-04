@@ -1,6 +1,6 @@
 <template>
   <Section title="Journal">
-    <div class="items-middle flex flex-row justify-end gap-4">
+    <div class="items-middle mb-4 flex flex-row-reverse justify-between gap-4">
       <!--tabs -->
       <div class="flex rounded-lg bg-stone-50 p-0.5">
         <!-- menu icon-->
@@ -32,11 +32,17 @@
         </a>
       </div>
       <!-- current date here -->
+      <div>date</div>
       <!-- back and forward arrows here -->
+      <div>arrows</div>
     </div>
     <!-- tabs content -->
-    <div v-if="openTab == 1">This is tab 1</div>
-    <div v-if="openTab == 2">This is tab 2</div>
+    <div v-if="openTab == 1">
+      <div>Journal titles go here</div>
+    </div>
+    <div v-if="openTab == 2">
+      <div>Calendar go here</div>
+    </div>
   </Section>
 </template>
 
