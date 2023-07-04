@@ -1,6 +1,6 @@
 <template>
   <section
-    class="grid border-b border-b-neutral-200 bg-neutral-100 p-8 last:border-b-0"
+    class="border-b border-b-neutral-200 bg-neutral-100 p-6 last:border-b-0"
   >
     <h2 class="pb-4 text-sm font-normal uppercase text-neutral-400">
       {{ title }}

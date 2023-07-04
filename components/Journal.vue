@@ -1,15 +1,16 @@
 <template>
-  <Section title="Journal" class="relative">
-    <div class="flex">
-      <!--tabs components-->
-      <div class="absolute right-2 top-14 flex rounded-lg bg-stone-50 p-0.5">
+  <Section title="Journal">
+    <div class="items-middle flex flex-row justify-end gap-4">
+      <!--tabs -->
+      <div class="flex rounded-lg bg-stone-50 p-0.5">
         <!-- menu icon-->
         <a href="#" v-on:click="toggleTabs(1)">
           <div
             class="rounded-md p-1"
             :class="{
-              'bg-stone-50': openTab !== 1,
-              'border  border-solid border-stone-400 bg-stone-300':
+              'border border-solid border-stone-400/0 bg-stone-300/0':
+                openTab !== 1,
+              'border border-solid border-stone-400 bg-stone-300':
                 openTab === 1,
             }"
           >
@@ -22,7 +23,7 @@
             class="rounded-md p-1"
             :class="{
               'bg-stone-50': openTab !== 2,
-              'border  border-solid border-stone-400 bg-stone-300':
+              'border border-solid border-stone-400 bg-stone-300':
                 openTab === 2,
             }"
           >
@@ -30,7 +31,12 @@
           </div>
         </a>
       </div>
+      <!-- current date here -->
+      <!-- back and forward arrows here -->
     </div>
+    <!-- tabs content -->
+    <div v-if="openTab == 1">This is tab 1</div>
+    <div v-if="openTab == 2">This is tab 2</div>
   </Section>
 </template>
 
