@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { $getRoot, $getSelection } from "lexical";
 import theme from "./LexicalEditor/theme";
 import { ref } from "vue";
+import { $generateHtmlFromNodes } from "@lexical/html";
 
 import {
   LexicalAutoFocusPlugin,
@@ -25,6 +25,7 @@ import CodeHighlightPlugin from "./LexicalEditor/CodeHighlightPlugin.vue";
 
 const config = {
   editable: true,
+  editorState: props.value,
   theme,
   nodes: [
     HeadingNode,
@@ -41,20 +42,26 @@ const config = {
   },
 };
 
+const emit = defineEmits(["onChange"]);
+
 // When the editor changes, you can get notified via the
 // LexicalOnChangePlugin!
-function onChange(editorState) {
+function onChange(editorState, editor) {
   editorState.read(() => {
-    // Read the contents of the EditorState here.
-    const root = $getRoot();
-    const selection = $getSelection();
-
-    console.log(root, selection);
+    const data = {
+      lexical: JSON.stringify(editorState.toJSON()),
+      html: $generateHtmlFromNodes(editor),
+    };
+    emit("onChange", data);
   });
 }
 
 // Two-way binding
 const content = ref("");
+
+const props = defineProps({
+  value: String,
+});
 </script>
 
 <template>
@@ -73,7 +80,7 @@ const content = ref("");
             </div>
           </template>
         </LexicalRichTextPlugin>
-        <LexicalOnChangePlugin v-model="content" @change="onChange" />
+        <LexicalOnChangePlugin @change="onChange" />
         <LexicalHistoryPlugin />
         <LexicalAutoFocusPlugin />
         <LexicalLinkPlugin />
