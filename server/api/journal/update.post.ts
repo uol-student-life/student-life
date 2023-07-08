@@ -35,7 +35,8 @@ export default defineEventHandler(async (event) => {
   const updateContent = await prisma.content.update({
     where: { id: existingJournal.contentId },
     data: {
-      content: Buffer.from(body.content, "utf8"),
+      html: Buffer.from(body.html, "utf8"),
+      lexical: Buffer.from(body.lexical, "utf8"),
     },
   });
 
@@ -60,6 +61,8 @@ export default defineEventHandler(async (event) => {
 
   return {
     ...journal,
-    content: journal?.content.content.toString("utf8"),
+    content: undefined, // remove content from response
+    html: journal?.content.html.toString("utf8"),
+    lexical: journal?.content.lexical.toString("utf8"),
   };
 });

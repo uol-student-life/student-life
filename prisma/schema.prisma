@@ -23,6 +23,7 @@ model Journal {
 
 model Content {
   id      Int      @id @default(autoincrement())
-  content Bytes
+  html    Bytes
+  lexical Bytes
   journal Journal?
 }
