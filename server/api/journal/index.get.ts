@@ -31,6 +31,8 @@ export default defineEventHandler(async (event) => {
 
   return {
     ...journal,
-    content: journal?.content.content.toString("utf8"),
+    content: undefined, // remove content from response
+    html: journal?.content.html.toString("utf8"),
+    lexical: journal?.content.lexical.toString("utf8"),
   };
 });
