@@ -1,6 +1,18 @@
 version: "3"
-
 services:
+
+  student-life-nuxt:
+    image: uolstudentlife/student-life:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: ./docker.env
+    ports:
+      -  3000:80
+    depends_on:
+      - mysql
+      - s3
+
   mysql:
     user: mysql
     image: mysql:8.0.30   # please pin version
@@ -44,3 +56,4 @@ services:
       /usr/bin/mc mb minio/student-life;
       /usr/bin/mc policy set download minio/student-life;
       exit 0;"
+
