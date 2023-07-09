@@ -38,10 +38,10 @@
     </div>
     <!-- tabs content -->
     <div v-if="openTab == 1">
-      <div>Journal titles go here</div>
+      <JournalList />
     </div>
     <div v-if="openTab == 2">
-      <div>Calendar go here</div>
+      <JournalCalendar />
     </div>
   </Section>
 </template>
