@@ -2,11 +2,11 @@ version: "3"
 services:
 
   student-life-nuxt:
-    image: uolstudentlife/uol-student-life:latest
+    image: uolstudentlife/student-life:latest
     build:
       context: .
       dockerfile: Dockerfile
-    env_file: ./docker.env   # we may have environment variables that is required during runtime, do provide docker.env.example
+    env_file: ./docker.env
     ports:
       -  3000:80
     depends_on:
@@ -15,10 +15,10 @@ services:
 
   mysql:
     user: mysql
-    image: mysql:8.0.30  # please pin version
+    image: mysql:8.0.30   # please pin version
     command: --default-authentication-plugin=mysql_native_password
     restart: always
-    env_file: ./docker.env   # we may have environment variables that is required during runtime, do provide docker.env.example
+    env_file: ./docker.env
     ports:
       - 3306:3306
     volumes:
@@ -26,9 +26,9 @@ services:
     healthcheck:
       test: mysqladmin ping -ppass
 
+  # currently, minio server and mc client images do not support arm64 arch e.g. Mac M1 if fips tag used
   s3:
-    # fips tag does not support natively arm64 arch e.g. Mac M1
-    image: minio/minio:RELEASE.2023-06-29T05-12-28Z   # please pin version
+    image: minio/minio:RELEASE.2023-07-07T07-13-57Z   # please pin version
     env_file: ./docker.env
     ports:
       - "9000:9000"
@@ -46,25 +46,14 @@ services:
 
   # this is to run the entrypoint command using `mc` to initial setup the objstore bucket and set policy
   minioclient:
-    image: minio/mc:RELEASE.2023-06-28T21-54-17Z  # please pin version
+    image: minio/mc:RELEASE.2023-07-07T05-25-51Z   # please pin version
     env_file: ./docker.env
     depends_on:
       s3:
         condition: service_healthy
     entrypoint: /bin/sh -c "
-      /usr/bin/mc config host add minio http://storage:9000 $${MINIO_ROOT_USER} $${MINIO_ROOT_PASSWORD};
+      /usr/bin/mc config host add minio http://s3:9000 $${MINIO_ROOT_USER} $${MINIO_ROOT_PASSWORD};
       /usr/bin/mc mb minio/student-life;
       /usr/bin/mc policy set download minio/student-life;
       exit 0;"
 
-  # # this is to run the database schema apply upon startup
-  # migrate:
-  #   image: arigaio/atlas:latest
-  #   env_file: ./docker.env
-  #   command: >
-  #     schema apply --url "mysql://$${MYSQL_USERNAME}:$${MYSQL_PASSWORD}@$${MYSQL_HOST}:$${MYSQL_PORT}" --to "/database" --auto-approve
-  #   depends_on:
-  #     mysql:
-  #       condition: service_healthy
-  #   volumes:
-  #     - ./database:/database

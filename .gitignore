@@ -22,5 +22,5 @@ logs
 .env.*
 !.env.example
 
-# docker stuff
+# Docker data and env config
 .dockervolume
