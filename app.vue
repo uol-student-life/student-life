@@ -10,7 +10,7 @@
 
       <div class="border-x border-x-neutral-200">
         <ClientOnly>
-          <LexicalEditor />
+          <Editor />
         </ClientOnly>
       </div>
 
@@ -22,8 +22,8 @@
       </aside>
     </main>
 
-    <footer
-      class="border-t border-t-neutral-200 p-2 text-sm text-neutral-400"
-    >240 words</footer>
+    <footer class="border-t border-t-neutral-200 p-2 text-sm text-neutral-400">
+      240 words
+    </footer>
   </div>
 </template>

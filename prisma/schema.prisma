@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DB_CONNECTION_STRING")
+}
+
+model Journal {
+  id          Int      @id @default(autoincrement())
+  content     Content  @relation(fields: [contentId], references: [id])
+  contentId   Int      @unique
+  journalDate DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([journalDate])
+}
+
+model Content {
+  id      Int      @id @default(autoincrement())
+  html    Bytes
+  lexical Bytes
+  journal Journal?
+}
