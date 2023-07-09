@@ -104,13 +104,14 @@ You can also pass in `--create-only` flag to only generate migration without app
 
 The compose file defines the main application service `student-life-nuxt` along with three dependent services:
 
-* `mysql`: provides a MySQL database server instance.
-* `s3`: provides an AWS S3 compatible MinIO object storage server instance. 
-* `minioclient`: runs MinIO Client (mc) commands for setting up an object bucket and access policy for the app.
+- `mysql`: provides a MySQL database server instance.
+- `s3`: provides an AWS S3 compatible MinIO object storage server instance.
+- `minioclient`: runs MinIO Client (mc) commands for setting up an object bucket and access policy for the app.
 
 Before running the whole application stack using the following command:
-* Please copy `docker.env.example` file to a new one named `docker.env` and change its values suitable for your environment.
-* Make sure the exposed ports are not already being in use on the host.
+
+- Please copy `docker.env.example` file to a new one named `docker.env` and change its values suitable for your environment.
+- Make sure the exposed ports are not already being in use on the host.
 
 ```
 $ docker compose -f ./docker-compose.full.yaml up -d
