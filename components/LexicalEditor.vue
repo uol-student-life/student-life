@@ -22,10 +22,11 @@ import { CodeHighlightNode, CodeNode } from "@lexical/code";
 import AutoLinkPlugin from "./LexicalEditor/AutoLinkPlugin.vue";
 import MarkdownShortcutPlugin from "./LexicalEditor/MarkdownShortcutPlugin.vue";
 import CodeHighlightPlugin from "./LexicalEditor/CodeHighlightPlugin.vue";
+import { $getRoot } from "lexical";
 
 const config = {
   editable: true,
-  editorState: props.value,
+  editorState: props.value || null,
   theme,
   nodes: [
     HeadingNode,
@@ -44,13 +45,20 @@ const config = {
 
 const emit = defineEmits(["onChange"]);
 
+// check whether editor is empty
+function isEmpty() {
+  return (
+    $getRoot().getFirstChild().isEmpty() && $getRoot().getChildrenSize() === 1
+  );
+}
+
 // When the editor changes, you can get notified via the
 // LexicalOnChangePlugin!
 function onChange(editorState, editor) {
   editorState.read(() => {
     const data = {
       lexical: JSON.stringify(editorState.toJSON()),
-      html: $generateHtmlFromNodes(editor),
+      html: isEmpty() ? "" : $generateHtmlFromNodes(editor),
     };
     emit("onChange", data);
   });
@@ -65,7 +73,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="p-8">
+  <div class="px-8 py-4">
     <div class="relative">
       <LexicalComposer :initial-config="config">
         <LexicalRichTextPlugin>
