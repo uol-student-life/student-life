@@ -21,7 +21,7 @@ const createJournal = async () => {
   const response = await $fetch("/api/journal", {
     method: "POST",
     body: {
-      journalDate: props.currentJournal?.journalDate || new Date().toISOString(),
+      journalDate: props.currentJournal?.journalDate,
       html: journalContent.html,
       lexical: journalContent.lexical,
     },
