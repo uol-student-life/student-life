@@ -1,6 +1,14 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, onBeforeMount } from "vue";
 import { isSameDay, getMonth, getYear, subMonths, addMonths } from "date-fns";
+
+// Let's keep it light mode for now.
+const colorMode = useColorMode();
+onBeforeMount(() => {
+  colorMode.preference = "light";
+});
+
+const toast = useToast();
 
 const journals = ref([]);
 const currentJournal = ref(null);
@@ -10,13 +18,29 @@ const selectedMonthYear = ref({
 });
 
 const getJournalsList = async () => {
-  const response = await $fetch("/api/journals", {
+  await $fetch("/api/journals", {
     params: {
       month: selectedMonthYear.value.month,
       year: selectedMonthYear.value.year,
     },
-  }).catch((error) => error.data.message); // todo: add toast component for notifications;
-  journals.value = response;
+  })
+    .then((response) => {
+      journals.value = response;
+      toast.add({
+        title: "Welcome Back!",
+        description: "Your journals are ready to go.",
+        color: "green",
+        icon: "i-heroicons-check-badge",
+      });
+    })
+    .catch((error) => {
+      toast.add({
+        title: "Fail to fetch journals",
+        description: error.data.message,
+        color: "red",
+        icon: "i-heroicons-exclamation-circle",
+      });
+    });
 };
 
 const showPrevMonth = () => {
@@ -71,6 +95,7 @@ const getSelectedPeriod = () => {
 </script>
 
 <template>
+  <UNotifications />
   <div class="grid h-screen grid-rows-[minmax(0,_1fr)_auto] bg-neutral-50">
     <main
       class="grid grid-cols-[minmax(20%,_340px)_minmax(50%,_1fr)_minmax(20%,_340px)]"
