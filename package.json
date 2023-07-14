@@ -10,13 +10,14 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "@nuxtjs/tailwindcss": "^6.8.0",
+    "@nuxthq/ui": "^2.5.0",
     "@types/node": "^18",
     "nuxt": "^3.6.0",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
     "prisma": "^4.16.2",
-    "typescript": "latest"
+    "typescript": "latest",
+    "tailwindcss": "^3.3.2"
   },
   "dependencies": {
     "@heroicons/vue": "^2.0.18",
