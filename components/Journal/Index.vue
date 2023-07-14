@@ -1,6 +1,8 @@
 <template>
   <Section title="Journal">
-    <div class="items-middle mb-4 flex flex-row-reverse justify-between gap-4">
+    <div
+      class="mb-4 flex flex-row-reverse items-center justify-between gap-4 px-6"
+    >
       <!--tabs -->
       <div class="flex rounded-lg bg-stone-50 p-0.5">
         <!-- menu icon-->
@@ -10,7 +12,7 @@
             :class="{
               'border border-solid border-stone-400/0 bg-stone-300/0':
                 openTab !== 1,
-              'border border-solid border-stone-400 bg-stone-300':
+              'border border-solid border-stone-400 bg-stone-200':
                 openTab === 1,
             }"
           >
@@ -22,8 +24,8 @@
           <div
             class="rounded-md p-1"
             :class="{
-              'bg-stone-50': openTab !== 2,
-              'border border-solid border-stone-400 bg-stone-300':
+              'border border-transparent bg-stone-50': openTab !== 2,
+              'border border-solid border-stone-400 bg-stone-200':
                 openTab === 2,
             }"
           >
@@ -32,13 +34,17 @@
         </a>
       </div>
       <!-- current date here -->
-      <div>date</div>
+      <div class="font-semibold text-stone-400">date</div>
       <!-- back and forward arrows here -->
       <div>arrows</div>
     </div>
     <!-- tabs content -->
     <div v-if="openTab == 1">
-      <JournalList />
+      <JournalList
+        :journals="journals"
+        :selectJournal="selectJournal"
+        :currentJournal="currentJournal"
+      />
     </div>
     <div v-if="openTab == 2">
       <JournalCalendar />
@@ -58,4 +64,10 @@ const toggleTabs = (tab) => {
     openTab.value = tab;
   }
 };
+
+const props = defineProps({
+  journals: Array,
+  selectJournal: Function,
+  currentJournal: Object,
+});
 </script>
