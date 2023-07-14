@@ -2,7 +2,7 @@
   <div>
     <ul>
       <li
-        class="grid cursor-pointer grid-cols-[40px_1fr] items-center gap-4 px-4 py-2 text-sm hover:bg-stone-200"
+        class="grid cursor-pointer grid-cols-[40px_1fr] items-center gap-4 px-6 py-2 text-sm hover:bg-stone-200"
         :class="{
           'bg-stone-200': journal.id === currentJournal?.id,
         }"

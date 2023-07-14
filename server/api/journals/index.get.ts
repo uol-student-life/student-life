@@ -1,8 +1,20 @@
 import { prisma } from "../../db";
 import { stripTime } from "../../utils/date";
+import { startOfMonth, endOfMonth, formatISO } from "date-fns";
 
 export default defineEventHandler(async (event) => {
+  const { month, year } = getQuery(event);
+  const where = {};
+
+  if (month && year) {
+    where.journalDate = {
+      gte: formatISO(startOfMonth(new Date(year, month))),
+      lte: formatISO(endOfMonth(new Date(year, month))),
+    };
+  }
+
   const journals = await prisma.journal.findMany({
+    where,
     select: {
       id: true,
       journalDate: true,
