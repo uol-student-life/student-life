@@ -57,7 +57,7 @@ const hasJournal = (day) => {
 const props = defineProps({
   journals: Array,
   selectJournal: Function,
-  selectedPeriod: String,
+  selectedPeriod: Date,
 });
 </script>
 
