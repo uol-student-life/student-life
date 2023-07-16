@@ -1,0 +1,25 @@
+@startuml student-life
+!theme plain
+
+entity "student-life/Journal" {
+  **journalDate** : DateTime
+  -- relationship --
+  **contentId** : Int @fk to "student-life/content".id
+  -- base entity --
+  **id** : Int, auto_increment() @id
+  **createdAt** :   DateTime
+  **updatedAt** :   DateTime
+}
+
+entity "student-life/Content" {
+  **html** : LongBlob
+  **lexical** : LongBlob
+  -- base entity --
+  **id** : Int, auto_increment() @id
+  **createdAt** :   DateTime
+  **updatedAt** :   DateTime
+}
+
+"student-life/Journal" ||--|| "student-life/Content"
+
+@enduml
