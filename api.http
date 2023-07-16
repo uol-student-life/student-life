@@ -51,3 +51,75 @@ Host: {{HOST}}
 # @prompt id id of journal entry
 DELETE /api/journal?id={{id}} HTTP/1.1
 Host: {{HOST}}
+
+### Task
+
+# @name createTask
+# @prompt description description of task
+# @prompt dueDate (optional) due date of task in Date() or ISO format
+# @prompt status (optional) status of task: TODO or DONE
+# @prompt journalId (optional) id of journal entry
+# @prompt milestoneId (optional) id of milestone
+POST /api/task HTTP/1.1
+Host: {{HOST}}
+
+{
+    "description": "{{description}}",
+    "dueDate": "{{dueDate}}",
+    "status": "{{status}}",
+    "journalId": "{{journalId}}",
+    "milestoneId": "{{milestoneId}}"
+}
+
+###
+
+# @name getTask
+# @prompt id id of task
+GET /api/task?id={{id}} HTTP/1.1
+Host: {{HOST}}
+
+###
+
+# @name getTasks
+# INFO: filters and sort are optional (it'll return all tasks if not provided)
+# CAVEAT: because it has a body, it must be a POST request,
+#         Nuxt/H3 doesn't let me do a GET request with a body, so ya...
+POST /api/tasks HTTP/1.1
+Host: {{HOST}}
+
+{
+    "filters": {
+        "journalId": 1
+    },
+    "sort": {
+        "createdAt": "desc"
+    }
+}
+
+###
+
+# @name updateTask
+# @prompt id id of task
+# NOTE: if any of the field is not provided, it will not be updated
+# @prompt description (optional) description of task
+# @prompt dueDate (optional) due date of task in Date() or ISO format
+# @prompt status (optional) status of task: TODO or DONE
+# @prompt journalId (optional) id of journal entry
+# @prompt milestoneId (optional) id of milestone
+POST /api/task/update?id={{id}} HTTP/1.1
+Host: {{HOST}}
+
+{
+    "description": "{{description}}",
+    "dueDate": "{{dueDate}}",
+    "status": "{{status}}",
+    "journalId": "{{journalId}}",
+    "milestoneId": "{{milestoneId}}"
+}
+
+###
+
+# @name deleteTask
+# @prompt id id of task
+DELETE /api/task?id={{id}} HTTP/1.1
+Host: {{HOST}}
