@@ -17,7 +17,7 @@ const selectedMonthYear = ref({
   year: getYear(new Date()),
 });
 
-const getJournalsList = async () => {
+const getJournalsList = async ({ showWelcomeMessage } = {}) => {
   await $fetch("/api/journals", {
     params: {
       month: selectedMonthYear.value.month,
@@ -26,12 +26,14 @@ const getJournalsList = async () => {
   })
     .then((response) => {
       journals.value = response;
-      toast.add({
-        title: "Welcome Back!",
-        description: "Your journals are ready to go.",
-        color: "green",
-        icon: "i-heroicons-check-badge",
-      });
+      if (showWelcomeMessage) {
+        toast.add({
+          title: "Welcome Back!",
+          description: "Your journals are ready to go.",
+          color: "green",
+          icon: "i-heroicons-check-badge",
+        });
+      }
     })
     .catch((error) => {
       toast.add({
@@ -66,7 +68,7 @@ const showNextMonth = () => {
 };
 
 onMounted(async () => {
-  await getJournalsList();
+  await getJournalsList({ showWelcomeMessage: true });
   await setCurrentJournal();
 });
 
@@ -120,6 +122,7 @@ const getSelectedPeriod = () => {
           <Editor
             :currentJournal="currentJournal"
             :journalUpdated="getJournalsList"
+            :selectJournal="handleJournalSelection"
           />
         </ClientOnly>
       </div>
