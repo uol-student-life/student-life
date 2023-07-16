@@ -116,7 +116,7 @@ const getSelectedPeriod = () => {
         <MoodTracker />
       </aside>
 
-      <div class="border-x border-x-neutral-200">
+      <div class="overflow-auto border-x border-x-neutral-200">
         <Hero :date="currentJournal?.journalDate" />
         <ClientOnly>
           <Editor
