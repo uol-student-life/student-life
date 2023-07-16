@@ -4,12 +4,12 @@ import { startOfMonth, endOfMonth, formatISO } from "date-fns";
 
 export default defineEventHandler(async (event) => {
   const { month, year } = getQuery(event);
-  const where = {};
+  const where: any = {};
 
   if (month && year) {
     where.journalDate = {
-      gte: formatISO(startOfMonth(new Date(year, month))),
-      lte: formatISO(endOfMonth(new Date(year, month))),
+      gte: formatISO(startOfMonth(new Date(year as number, month as number))),
+      lte: formatISO(endOfMonth(new Date(year as number, month as number))),
     };
   }
 
