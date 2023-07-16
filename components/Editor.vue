@@ -10,6 +10,8 @@ const journalContent = reactive({
 });
 
 const isAlertDialogOpen = ref(false);
+const isSaving = ref(false);
+const isDeleting = ref(false);
 
 const saveJournal = () => {
   // return if there is no text in editor
@@ -32,14 +34,32 @@ const createJournal = async () => {
       html: journalContent.html,
       lexical: journalContent.lexical,
     },
-  }).catch((error) => {
-    toast.add({
-      title: "Fail to save journal",
-      description: error.data.message,
-      color: "red",
-      icon: "i-heroicons-exclamation-circle",
+    onRequest: () => {
+      isSaving.value = true;
+    },
+    onResponse: () => {
+      isSaving.value = false;
+    },
+    onRequestError: () => {
+      isSaving.value = false;
+    },
+  })
+    .then((response) => {
+      toast.add({
+        title: "Journal created",
+        description: "Your journal has been created.",
+        color: "green",
+        icon: "i-heroicons-check-badge",
+      });
+    })
+    .catch((error) => {
+      toast.add({
+        title: "Fail to save journal",
+        description: error.data.message,
+        color: "red",
+        icon: "i-heroicons-exclamation-circle",
+      });
     });
-  });
 
   props.selectJournal(response);
   props.journalUpdated();
@@ -55,14 +75,32 @@ const updateJournal = async () => {
       html: journalContent.html,
       lexical: journalContent.lexical,
     },
-  }).catch((error) => {
-    toast.add({
-      title: "Fail to update journal",
-      description: error.data.message,
-      color: "red",
-      icon: "i-heroicons-exclamation-circle",
+    onRequest: () => {
+      isSaving.value = true;
+    },
+    onResponse: () => {
+      isSaving.value = false;
+    },
+    onRequestError: () => {
+      isSaving.value = false;
+    },
+  })
+    .then((response) => {
+      toast.add({
+        title: "Journal saved",
+        description: "Your journal has been saved.",
+        color: "green",
+        icon: "i-heroicons-check-badge",
+      });
+    })
+    .catch((error) => {
+      toast.add({
+        title: "Fail to update journal",
+        description: error.data.message,
+        color: "red",
+        icon: "i-heroicons-exclamation-circle",
+      });
     });
-  });
 
   props.journalUpdated();
 };
@@ -72,6 +110,15 @@ const deleteJournal = async () => {
     method: "DELETE",
     params: {
       id: props.currentJournal?.id,
+    },
+    onRequest: () => {
+      isDeleting.value = true;
+    },
+    onResponse: () => {
+      isDeleting.value = false;
+    },
+    onRequestError: () => {
+      isDeleting.value = false;
     },
   }).catch((error) => {
     toast.add({
@@ -107,21 +154,24 @@ const onCancelDialog = () => {
 <template>
   <div>
     <div class="flex justify-end gap-4 px-8 pt-8">
-      <button
-        class="px-1 py-1 text-sm font-medium text-stone-300 hover:text-red-300"
-        @click="isAlertDialogOpen = true"
-        title="Remove journal"
+      <UButton
         v-if="props.currentJournal?.id"
+        @click="isAlertDialogOpen = true"
+        color="red"
+        variant="outline"
+        icon="i-heroicons-trash"
       >
-        <TrashIcon class="h-5 w-5" />
-      </button>
+        Delete
+      </UButton>
 
-      <button
-        class="rounded border border-stone-500 px-3 py-1 text-sm font-medium text-stone-500 hover:border-stone-400"
+      <UButton
+        color="gray"
         @click="saveJournal"
+        icon="i-heroicons-pencil-square"
+        :loading="isSaving"
       >
         Save
-      </button>
+      </UButton>
     </div>
 
     <AlertDialog
