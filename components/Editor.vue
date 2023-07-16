@@ -178,6 +178,8 @@ const onCancelDialog = () => {
       :isOpen="isAlertDialogOpen"
       :onCancel="onCancelDialog"
       :onConfirm="deleteJournal"
+      confirmColor="red"
+      :loading="isDeleting"
     >
       <template #header> Are you absolutely sure? </template>
 

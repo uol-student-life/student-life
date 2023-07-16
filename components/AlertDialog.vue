@@ -3,6 +3,14 @@ const props = defineProps({
   isOpen: Boolean,
   onCancel: Function,
   onConfirm: Function,
+  confirmColor: {
+    type: String,
+    default: "primary",
+  },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
 });
 </script>
 
@@ -11,30 +19,24 @@ const props = defineProps({
     :model-value="isOpen"
     @update:model-value="(val) => !val && props.onCancel()"
   >
-    <div class="bg-stone-50 p-8 text-stone-700">
-      <h1 class="mb-4 font-medium">
-        <slot name="header"></slot>
-      </h1>
+    <UCard>
+      <template #header>
+        <span class="font-medium text-stone-500">
+          <slot name="header"></slot>
+        </span>
+      </template>
+      <slot name="body"></slot>
+      <template #footer>
+        <div class="flex justify-end space-x-2">
+          <UButton color="gray" variant="outline" @click="onCancel">
+            Cancel
+          </UButton>
 
-      <p class="font-light">
-        <slot name="body"></slot>
-      </p>
-
-      <div class="flex justify-end gap-6 pt-6">
-        <button
-          class="rounded bg-stone-100 px-3 py-2 text-sm font-medium text-stone-600 hover:bg-stone-200"
-          @click="onCancel"
-        >
-          Cancel
-        </button>
-
-        <button
-          class="rounded bg-red-50 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-100"
-          @click="onConfirm"
-        >
-          <slot name="action-text"></slot>
-        </button>
-      </div>
-    </div>
+          <UButton :color="confirmColor" @click="onConfirm" :loading="loading">
+            <slot name="action-text"></slot>
+          </UButton>
+        </div>
+      </template>
+    </UCard>
   </UModal>
 </template>
