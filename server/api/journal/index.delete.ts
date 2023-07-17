@@ -26,13 +26,29 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const deleteJournal = await prisma.journal.delete({
+  const deleteJournal = prisma.journal.delete({
     where: { id },
   });
 
-  const deleteContent = await prisma.content.delete({
+  const deleteContent = prisma.content.delete({
     where: { id: journal.contentId },
   });
+
+  const removeJournalFromTasks = prisma.task.updateMany({
+    where: { journalId: id },
+    data: { journalId: null },
+  });
+
+  const removeJournalFromMilestones = prisma.milestonesOnJournals.deleteMany({
+    where: { journalId: id },
+  });
+
+  await prisma.$transaction([
+    deleteJournal,
+    deleteContent,
+    removeJournalFromTasks,
+    removeJournalFromMilestones,
+  ]);
 
   return `Journal ${id} deleted.`;
 });
