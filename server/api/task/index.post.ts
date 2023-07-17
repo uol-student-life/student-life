@@ -34,12 +34,9 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    task = {
-      ...task,
-      journal: {
-        connect: {
-          id: journal.id,
-        },
+    task.journal = {
+      connect: {
+        id: journal.id,
       },
     };
   }
@@ -59,18 +56,15 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    task = {
-      ...task,
-      milestone: {
-        connect: {
-          id: milestone.id,
-        },
+    task.milestone = {
+      connect: {
+        id: milestone.id,
       },
     };
   }
 
   const newTask = await prisma.task.create({
-    data: { ...task },
+    data: task,
   });
 
   return {

@@ -43,11 +43,8 @@ export default defineEventHandler(async (event) => {
 
   if (body.journalId !== undefined && task.journalId !== body.journalId) {
     if (body.journalId === null) {
-      taskUpdate = {
-        ...taskUpdate,
-        journal: {
-          disconnect: true,
-        },
+      taskUpdate.journal = {
+        disconnect: true,
       };
     } else {
       const newJournal = await prisma.journal.findUnique({
@@ -69,13 +66,10 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  if (body.milestoneId && task.milestoneId !== body.milestoneId) {
+  if (body.milestoneId !== undefined && task.milestoneId !== body.milestoneId) {
     if (body.milestoneId === null) {
-      taskUpdate = {
-        ...taskUpdate,
-        milestone: {
-          disconnect: true,
-        },
+      taskUpdate.milestone = {
+        disconnect: true,
       };
     } else {
       const milestone = await prisma.milestone.findUnique({
@@ -102,7 +96,7 @@ export default defineEventHandler(async (event) => {
 
   const updatedTask = await prisma.task.update({
     where: { id },
-    data: { ...taskUpdate },
+    data: taskUpdate,
     include: {
       journal: true,
       milestone: true,
