@@ -113,8 +113,8 @@ Host: {{HOST}}
     "description": "{{description}}",
     "dueDate": "{{dueDate}}",
     "status": "{{status}}",
-    "journalId": "{{journalId}}",
-    "milestoneId": "{{milestoneId}}"
+    "journalId": {{journalId}},
+    "milestoneId": {{milestoneId}}
 }
 
 ###
