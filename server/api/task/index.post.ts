@@ -16,9 +16,14 @@ export default defineEventHandler(async (event) => {
     body.status = "TODO";
   }
 
+  let dueDate: Date | null = null;
+  if (body.dueDate) {
+    dueDate = new Date(body.dueDate);
+  }
+
   let task: Prisma.TaskCreateInput = {
     description: body.description as string,
-    dueDate: body.dueDate || null,
+    dueDate: dueDate,
     status: (body.status as TaskStatus) || TaskStatus.TODO,
   };
 
