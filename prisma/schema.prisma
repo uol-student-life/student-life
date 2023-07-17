@@ -66,8 +66,6 @@ model Milestone {
 }
 
 model MilestonesOnJournals {
-  id Int @id @default(autoincrement())
-
   journal   Journal @relation(fields: [journalId], references: [id])
   journalId Int
 
@@ -77,5 +75,5 @@ model MilestonesOnJournals {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([journalId, milestoneId])
+  @@id([journalId, milestoneId])
 }

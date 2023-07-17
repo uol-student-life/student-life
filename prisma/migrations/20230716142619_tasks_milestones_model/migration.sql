@@ -27,14 +27,12 @@ CREATE TABLE `Milestone` (
 
 -- CreateTable
 CREATE TABLE `MilestonesOnJournals` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `journalId` INTEGER NOT NULL,
     `milestoneId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
-    INDEX `MilestonesOnJournals_journalId_milestoneId_idx`(`journalId`, `milestoneId`),
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`journalId`, `milestoneId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
