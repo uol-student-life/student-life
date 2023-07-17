@@ -123,3 +123,171 @@ Host: {{HOST}}
 # @prompt id id of task
 DELETE /api/task?id={{id}} HTTP/1.1
 Host: {{HOST}}
+
+### Milestone
+
+# @name createMilestone
+# @prompt description description of milestone
+# @prompt journalId id of journal entry
+POST /api/milestone HTTP/1.1
+Host: {{HOST}}
+
+{
+    "description": "{{description}}",
+    "journalId": "{{journalId}}"
+}
+
+###
+
+# @name getMilestone
+# @prompt milestoneId id of milestone
+GET /api/milestone?id={{milestoneId}} HTTP/1.1
+Host: {{HOST}}
+
+###
+
+# @name getMilestones
+POST /api/milestones HTTP/1.1
+Host: {{HOST}}
+
+{
+    "filters": {
+        "journalId": 2
+    },
+    "sort": {
+        "createdAt": "asc"
+    }
+}
+
+###
+
+# @name updateMilestone
+# @prompt id id of milestone
+# @prompt description updated description of milestone
+POST /api/milestone/update?id={{id}} HTTP/1.1
+Host: {{HOST}}
+
+{
+    "description": "{{description}}"
+}
+
+###
+
+# @name deleteMilestone
+# @prompt id id of milestone
+DELETE /api/milestone?id={{id}} HTTP/1.1
+Host: {{HOST}}
+
+###
+
+# @name tagMilestoneToTask
+# @prompt id id of milestone
+# @prompt taskId id of task
+POST /api/milestone/tag?id={{id}} HTTP/1.1
+Host: {{HOST}}
+
+{
+    "to": {
+        "taskId": "{{taskId}}"
+    }
+}
+
+###
+
+# @name tagMilestoneToJournal
+# @prompt id id of milestone
+# @prompt journalId id of journal
+POST /api/milestone/tag?id={{id}} HTTP/1.1
+Host: {{HOST}}
+
+{
+    "to": {
+        "journalId": "{{journalId}}"
+    }
+}
+
+###
+
+# @name tagMilestoneToTaskAndJournal
+# @prompt id id of milestone
+# @prompt taskId id of task
+# @prompt journalId id of journal
+POST /api/milestone/tag?id={{id}} HTTP/1.1
+Host: {{HOST}}
+
+{
+    "to": {
+        "taskId": "{{taskId}}",
+        "journalId": "{{journalId}}"
+    }
+}
+
+###
+
+# @name tagMilestoneToNewTaskAndJournal
+# @prompt id id of milestone
+# @prompt journalId id of journal
+# @prompt description description of task
+# @prompt dueDate (optional) due date of task in Date() or ISO format
+# @prompt status (optional) status of task: TODO or DONE
+# NOTE: You cannot tag an existing and create it at the same time, 
+# don't break natural order of things
+POST /api/milestone/tag?id={{id}} HTTP/1.1
+Host: {{HOST}}
+
+{
+    "to": {
+        "journalId": "{{journalId}}"
+    },
+    "create": {
+        "task": {
+            "description": "{{description}}",
+            "dueDate": "{{dueDate}}",
+            "status": "{{status}}"
+        }
+    }
+}
+
+###
+
+# @name untagMilestoneFromTask
+# @prompt id id of milestone
+# @prompt taskId id of task
+POST /api/milestone/untag?id={{id}} HTTP/1.1
+Host: {{HOST}}
+
+{
+    "from": {
+        "taskId": "{{taskId}}"
+    }
+}
+
+###
+
+# @name untagMilestoneFromJournal
+# @prompt id id of milestone
+# @prompt journalId id of journal
+POST /api/milestone/untag?id={{id}} HTTP/1.1
+Host: {{HOST}}
+
+{
+    "from": {
+        "journalId": "{{journalId}}"
+    }
+}
+
+###
+
+# @name untagMilestoneFromTaskAndJournal
+# @prompt id id of milestone
+# @prompt taskId id of task
+# @prompt journalId id of journal
+POST /api/milestone/untag?id={{id}} HTTP/1.1
+Host: {{HOST}}
+
+{
+    "from": {
+        "taskId": "{{taskId}}",
+        "journalId": "{{journalId}}"
+    }
+}
