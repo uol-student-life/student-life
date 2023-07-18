@@ -10,7 +10,7 @@
         <!--tabs -->
         <div class="flex rounded-lg bg-stone-50 p-0.5">
           <!-- menu icon-->
-          <a href="#" v-on:click="toggleTabs(1)">
+          <button type="button" v-on:click="toggleTabs(1)" data-testid="list-view-tab">
             <div
               class="rounded-md p-1"
               :class="{
@@ -22,9 +22,9 @@
             >
               <Bars4Icon class="h-5 w-5 text-stone-700" />
             </div>
-          </a>
+          </button>
           <!-- calendar icon -->
-          <a href="#" class="ml-2" v-on:click="toggleTabs(2)">
+          <button type="button" class="ml-2" v-on:click="toggleTabs(2)" data-testid="calendar-view-tab">
             <div
               class="rounded-md p-1"
               :class="{
@@ -35,10 +35,10 @@
             >
               <CalendarIcon class="h-5 w-5 text-stone-700" />
             </div>
-          </a>
+          </button>
         </div>
         <!-- current date here -->
-        <div class="text-sm font-semibold text-stone-400">
+        <div class="text-sm font-semibold text-stone-400" data-testid="current-month">
           {{ getFormattedDate() }}
         </div>
         <!-- back and forward arrows here -->

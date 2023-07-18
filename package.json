@@ -14,6 +14,7 @@
     "migrate:reset:tests": "dotenv -e .env.test -- npx prisma migrate reset --force"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.7.3",
     "@nuxt/devtools": "latest",
     "@nuxthq/ui": "^2.5.0",
     "@playwright/test": "^1.36.1",

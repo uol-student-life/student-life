@@ -90,6 +90,7 @@ const props = defineProps({
               'text-stone-600': isSameMonth(day, props.selectedPeriod),
             }"
             @click="isSameMonth(day, props.selectedPeriod) && handleClick(day)"
+            data-test-day-button
           >
             {{ format(day, "d") }}
             <span
@@ -98,6 +99,7 @@ const props = defineProps({
             >
               <span
                 class="block h-[6px] w-[6px] rounded-[50%] bg-stone-400"
+                data-testid="has-journal"
               ></span>
             </span>
           </button>
