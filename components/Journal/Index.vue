@@ -1,6 +1,9 @@
 <template>
   <Section title="Journal">
-    <div class="grid h-full grid-rows-[auto_1fr] overflow-hidden">
+    <div
+      class="grid h-full grid-rows-[auto_1fr] overflow-hidden"
+      data-testid="journals"
+    >
       <div
         class="mb-4 flex flex-row-reverse items-center justify-between gap-4 px-6"
       >
