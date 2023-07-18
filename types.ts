@@ -31,6 +31,10 @@ export interface MilestoneTagInput {
     | undefined;
 }
 
+export interface MilestoneCreateInput extends MilestoneTagInput {
+  description: string;
+}
+
 export interface MilestoneUntagInput {
   from: {
     journalId: number | string | undefined;

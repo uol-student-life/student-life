@@ -134,7 +134,51 @@ Host: {{HOST}}
 
 {
     "description": "{{description}}",
-    "journalId": "{{journalId}}"
+    "to": {
+        "journalId": "{{journalId}}"
+    }
+}
+
+###
+
+# @name createMilestoneAndTagTask
+# @prompt description description of milestone
+# @prompt journalId id of journal entry
+# @prompt taskId id of task
+POST /api/milestone HTTP/1.1
+Host: {{HOST}}
+
+{
+    "description": "{{description}}",
+    "to": {
+        "journalId": "{{journalId}}",
+        "taskId": "{{taskId}}"
+    }
+}
+
+###
+
+# @name createMilestoneAndCreateTask
+# @prompt description description of milestone
+# @prompt journalId id of journal entry
+# @prompt description description of task
+# @prompt dueDate (optional) due date of task in Date() or ISO format
+# @prompt status (optional) status of task: TODO or DONE
+POST /api/milestone HTTP/1.1
+Host: {{HOST}}
+
+{
+    "description": "{{description}}",
+    "to": {
+        "journalId": "{{journalId}}"
+    },
+    "create": {
+        "task": {
+            "description": "{{description}}",
+            "dueDate": "{{dueDate}}",
+            "status": "{{status}}"
+        }
+    }
 }
 
 ###
