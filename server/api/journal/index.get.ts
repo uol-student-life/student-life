@@ -4,7 +4,7 @@ import { stripTime } from "../../utils/date";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
-  const where: Prisma.JournalWhereInput = {};
+  const where: Prisma.JournalWhereUniqueInput = {};
 
   if (!query.id && !query.journalDate) {
     throw createError({
@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
   }
 
   if (query.journalDate) {
-    where.journalDate = stripTime(query.journalDate);
+    where.journalDate = stripTime(new Date(query.journalDate as string));
   }
 
   const journal = await prisma.journal.findUnique({
