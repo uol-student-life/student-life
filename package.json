@@ -4,14 +4,14 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "dev:tests": "dotenv -e .env.test -- npx nuxt dev --port 3001",
+    "dev:tests": "npx nuxt dev --port 3001",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "test:e2e": "scripts/run-e2e.sh",
     "test:e2e:ui": "scripts/run-e2e.sh --ui",
-    "migrate:tests": "dotenv -e .env.test -- npx prisma migrate dev --name init",
-    "migrate:reset:tests": "dotenv -e .env.test -- npx prisma migrate reset --force"
+    "migrate:tests": "npx prisma migrate dev --name init",
+    "migrate:reset:tests": "npx prisma migrate reset --force"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.7.3",
