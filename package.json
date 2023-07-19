@@ -33,9 +33,11 @@
   },
   "dependencies": {
     "@heroicons/vue": "^2.0.18",
+    "@popperjs/core": "^2.11.8",
     "@prisma/client": "^4.16.2",
     "date-fns": "^2.30.0",
     "lexical": "^0.11.1",
-    "lexical-vue": "^0.6.1"
+    "lexical-vue": "^0.6.1",
+    "v-calendar": "^3.0.3"
   }
 }

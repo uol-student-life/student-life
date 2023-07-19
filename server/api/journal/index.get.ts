@@ -1,18 +1,28 @@
 import { prisma } from "../../db";
+import type { Prisma } from "@prisma/client";
+import { stripTime } from "../../utils/date";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
+  const where: Prisma.JournalWhereUniqueInput = {};
 
-  if (!query.id) {
+  if (!query.id && !query.journalDate) {
     throw createError({
       statusCode: 400,
-      message: "Missing required parameter: id",
+      message: "Missing required parameter: id or journalDate",
     });
   }
 
-  const id = parseInt(query.id.toString());
+  if (query.id) {
+    where.id = parseInt(query.id.toString());
+  }
+
+  if (query.journalDate) {
+    where.journalDate = stripTime(new Date(query.journalDate as string));
+  }
+
   const journal = await prisma.journal.findUnique({
-    where: { id },
+    where,
     select: {
       id: true,
       content: true,

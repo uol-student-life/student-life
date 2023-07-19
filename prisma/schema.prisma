@@ -14,7 +14,7 @@ model Journal {
   id          Int      @id @default(autoincrement())
   content     Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
   contentId   Int      @unique
-  journalDate DateTime
+  journalDate DateTime @unique
 
   tasks      Task[]
   milestones MilestonesOnJournals[]

@@ -72,8 +72,9 @@ onMounted(async () => {
   await setCurrentJournal();
 });
 
-const handleJournalSelection = (journal) => {
+const handleJournalSelection = async (journal) => {
   currentJournal.value = journal;
+  await getJournalsList();
 };
 
 const setCurrentJournal = () => {
