@@ -9,6 +9,14 @@ describe("stripTime", () => {
     expect(strippedDate).toEqual(expectedDate);
   });
 
+  test("returns date even though input is not valid Date type", () => {
+    const expectedDate = new Date("2023-07-19T00:00:00.000Z");
+    // @ts-ignore
+    const strippedDate = stripTime("2023-07-19" as string);
+
+    expect(strippedDate).toEqual(expectedDate);
+  });
+
   test("returns the same date if already without time", () => {
     const dateWithoutTime = new Date("2023-07-19T00:00:00.000Z");
     const strippedDate = stripTime(dateWithoutTime);
