@@ -1,5 +1,19 @@
 <template>
   <Section title="Journal">
+    <template #suffix>
+      <UPopover :popper="{ placement: 'bottom' }">
+        <UButton color="gray" icon="i-heroicons-plus-circle" variant="link" />
+
+        <template #panel="{ close }">
+          <JournalPopover
+            v-model="date"
+            @close="close"
+            :selectJournal="selectJournal"
+          />
+        </template>
+      </UPopover>
+    </template>
+
     <div
       class="grid h-full grid-rows-[auto_1fr] overflow-hidden"
       data-testid="journals"
@@ -10,7 +24,11 @@
         <!--tabs -->
         <div class="flex rounded-lg bg-stone-50 p-0.5">
           <!-- menu icon-->
-          <button type="button" v-on:click="toggleTabs(1)" data-testid="list-view-tab">
+          <button
+            type="button"
+            v-on:click="toggleTabs(1)"
+            data-testid="list-view-tab"
+          >
             <div
               class="rounded-md p-1"
               :class="{
@@ -24,7 +42,12 @@
             </div>
           </button>
           <!-- calendar icon -->
-          <button type="button" class="ml-2" v-on:click="toggleTabs(2)" data-testid="calendar-view-tab">
+          <button
+            type="button"
+            class="ml-2"
+            v-on:click="toggleTabs(2)"
+            data-testid="calendar-view-tab"
+          >
             <div
               class="rounded-md p-1"
               :class="{
@@ -38,7 +61,10 @@
           </button>
         </div>
         <!-- current date here -->
-        <div class="text-sm font-semibold text-stone-400" data-testid="current-month">
+        <div
+          class="text-sm font-semibold text-stone-400"
+          data-testid="current-month"
+        >
           {{ getFormattedDate() }}
         </div>
         <!-- back and forward arrows here -->
@@ -91,6 +117,8 @@ const toggleTabs = (tab) => {
     openTab.value = tab;
   }
 };
+
+const date = ref(new Date());
 
 const getFormattedDate = () => {
   if (!props.selectedPeriod) {
