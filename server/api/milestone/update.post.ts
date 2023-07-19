@@ -1,4 +1,6 @@
 import { prisma } from "../../db";
+import type { Prisma } from "@prisma/client";
+import { MilestoneStatus } from "@prisma/client";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
@@ -21,11 +23,19 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  const updateMilestoneData: Prisma.MilestoneUpdateInput = {};
+
+  if (body.description) {
+    updateMilestoneData.description = body.description;
+  }
+
+  if (body.status) {
+    updateMilestoneData.status = body.status as MilestoneStatus;
+  }
+
   const updatedMilestone = await prisma.milestone.update({
     where: { id },
-    data: {
-      description: body.description,
-    },
+    data: updateMilestoneData,
     include: {
       journals: true,
     },

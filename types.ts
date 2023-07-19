@@ -33,6 +33,7 @@ export interface MilestoneTagInput {
 
 export interface MilestoneCreateInput extends MilestoneTagInput {
   description: string;
+  status: "INPROGRESS" | "COMPLETED" | undefined;
 }
 
 export interface MilestoneUntagInput {

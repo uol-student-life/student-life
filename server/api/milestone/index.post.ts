@@ -1,5 +1,5 @@
 import { prisma } from "../../db";
-import { TaskStatus } from "@prisma/client";
+import { TaskStatus, MilestoneStatus } from "@prisma/client";
 import type { Prisma } from "@prisma/client";
 import { MilestoneCreateInput } from "~/types";
 
@@ -32,6 +32,10 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  if (body.status && !["INPROGRESS", "COMPLETED"].includes(body.status)) {
+    body.status = "INPROGRESS";
+  }
+
   let createMilestone: Prisma.MilestonesOnJournalsCreateInput = {
     journal: {
       connect: { id: journal.id },
@@ -39,6 +43,7 @@ export default defineEventHandler(async (event) => {
     milestone: {
       create: {
         description: body.description,
+        status: (body.status as MilestoneStatus) || MilestoneStatus.INPROGRESS,
       },
     },
   };
