@@ -51,6 +51,7 @@ const createJournal = async () => {
         color: "green",
         icon: "i-heroicons-check-badge",
       });
+      props.selectJournal(response);
     })
     .catch((error) => {
       toast.add({
@@ -60,8 +61,6 @@ const createJournal = async () => {
         icon: "i-heroicons-exclamation-circle",
       });
     });
-
-  props.selectJournal(response);
   props.journalUpdated();
 };
 

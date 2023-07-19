@@ -14,10 +14,12 @@
     "migrate:reset:tests": "npx prisma migrate reset --force"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.7.3",
     "@nuxt/devtools": "latest",
     "@nuxthq/ui": "^2.5.0",
     "@playwright/test": "^1.36.1",
     "@types/node": "^18",
+    "dotenv": "^16.3.1",
     "nuxt": "^3.6.0",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",

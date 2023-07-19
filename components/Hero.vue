@@ -3,7 +3,7 @@
     <div></div>
     <div class="text-center">
       <span class="text-stone-400">Journal / </span>
-      <span>{{ getFormattedDate() }}</span>
+      <span data-testid="current-journal-date">{{ getFormattedDate() }}</span>
     </div>
   </div>
 </template>
