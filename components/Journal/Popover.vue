@@ -8,7 +8,10 @@ const props = defineProps({
     type: Date,
     default: null,
   },
-  selectJournal: Function,
+  selectJournal: {
+    type: Function,
+    required: true,
+  },
 });
 
 const emit = defineEmits(["update:model-value", "close"]);
@@ -24,22 +27,41 @@ const date = computed({
   },
 });
 
-const addJournal = async (event) => {
+const addJournal = async (event: Event) => {
   event.preventDefault();
 
   const journal = await getJournalByDate(date.value);
   if (journal) {
     props.selectJournal(journal);
   } else {
-    props.selectJournal({
-      journalDate: date.value.toString(),
-    });
+    const journal = await createJournalByDate(date.value);
+    props.selectJournal(journal);
   }
 
   emit("close");
 };
 
-async function getJournalByDate(date) {
+async function createJournalByDate(date: Date) {
+  const response = await $fetch("/api/journal", {
+    method: "POST",
+    body: {
+      journalDate: date.toString(),
+      html: "",
+      lexical: "",
+    },
+  }).catch((error) => {
+    toast.add({
+      title: "Fail to add journal",
+      description: error.data.message,
+      color: "red",
+      icon: "i-heroicons-exclamation-circle",
+    });
+  });
+
+  return response;
+}
+
+async function getJournalByDate(date: Date) {
   const response = await $fetch("/api/journal", {
     params: {
       journalDate: date.toISOString(),
