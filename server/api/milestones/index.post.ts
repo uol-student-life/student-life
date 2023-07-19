@@ -1,5 +1,6 @@
 import { prisma } from "../../db";
 import type { MilestoneFilterInput } from "~/types";
+import { MilestoneStatus } from "@prisma/client";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -9,6 +10,9 @@ export default defineEventHandler(async (event) => {
     where: {
       description: {
         contains: (filter.filters?.description as string) || undefined,
+      },
+      status: {
+        equals: (filter.filters?.status as MilestoneStatus) || undefined,
       },
       journals: {
         some: {

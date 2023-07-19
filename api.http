@@ -128,12 +128,14 @@ Host: {{HOST}}
 
 # @name createMilestone
 # @prompt description description of milestone
+# @prompt status (optional) status of milestone: INPROGRESS or COMPLETED
 # @prompt journalId id of journal entry
 POST /api/milestone HTTP/1.1
 Host: {{HOST}}
 
 {
     "description": "{{description}}",
+    "status": "{{status}}",
     "to": {
         "journalId": "{{journalId}}"
     }
@@ -143,6 +145,7 @@ Host: {{HOST}}
 
 # @name createMilestoneAndTagTask
 # @prompt description description of milestone
+# @prompt status (optional) status of milestone: INPROGRESS or COMPLETED
 # @prompt journalId id of journal entry
 # @prompt taskId id of task
 POST /api/milestone HTTP/1.1
@@ -150,6 +153,7 @@ Host: {{HOST}}
 
 {
     "description": "{{description}}",
+    "status": "{{status}}",
     "to": {
         "journalId": "{{journalId}}",
         "taskId": "{{taskId}}"
@@ -162,13 +166,15 @@ Host: {{HOST}}
 # @prompt description description of milestone
 # @prompt journalId id of journal entry
 # @prompt description description of task
+# @prompt status (optional) status of milestone: INPROGRESS or COMPLETED
 # @prompt dueDate (optional) due date of task in Date() or ISO format
-# @prompt status (optional) status of task: TODO or DONE
+# @prompt taskStatus (optional) status of task: TODO or DONE
 POST /api/milestone HTTP/1.1
 Host: {{HOST}}
 
 {
     "description": "{{description}}",
+    "status": "{{status}}",
     "to": {
         "journalId": "{{journalId}}"
     },
@@ -176,7 +182,7 @@ Host: {{HOST}}
         "task": {
             "description": "{{description}}",
             "dueDate": "{{dueDate}}",
-            "status": "{{status}}"
+            "status": "{{taskStatus}}"
         }
     }
 }
@@ -196,7 +202,8 @@ Host: {{HOST}}
 
 {
     "filters": {
-        "journalId": 2
+        "journalId": 2,
+        "status": "INPROGRESS"
     },
     "sort": {
         "createdAt": "asc"
@@ -208,11 +215,13 @@ Host: {{HOST}}
 # @name updateMilestone
 # @prompt id id of milestone
 # @prompt description updated description of milestone
+# @prompt status (optional) status of milestone: INPROGRESS or COMPLETED
 POST /api/milestone/update?id={{id}} HTTP/1.1
 Host: {{HOST}}
 
 {
-    "description": "{{description}}"
+    "description": "{{description}}",
+    "status": "{{status}}"
 }
 
 ###
