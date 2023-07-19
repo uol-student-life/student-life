@@ -146,3 +146,17 @@ Stop and remove the containers
 ```
 $ docker compose down
 ```
+
+## Tests
+
+We use [Playwright](https://playwright.dev/) for e2e testing:
+- `npm run test:e2e` runs tests and exit
+- `npm run test:e2e:ui` opens a [browser UI](https://playwright.dev/docs/test-ui-mode) in watch mode for exploring and 
+re-running tests. It's suitable when writing tests.  
+
+Make sure you execute these commands before running tests:
+- `npx playwright install` - install Playwright browsers
+- `cp .env.test.example .env.test`
+
+For macOS need `timeout` utils for scripts:
+- `brew install coreutils`
