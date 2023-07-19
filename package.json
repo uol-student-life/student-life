@@ -11,11 +11,14 @@
     "test:e2e": "scripts/run-e2e.sh",
     "test:e2e:ui": "scripts/run-e2e.sh --ui",
     "migrate:tests": "npx prisma migrate dev --name init",
-    "migrate:reset:tests": "npx prisma migrate reset --force"
+    "migrate:reset:tests": "npx prisma migrate reset --force",
+    "test:unit": "vitest --watch=false",
+    "test:unit:watch": "vitest"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.7.3",
     "@nuxt/devtools": "latest",
+    "@nuxt/test-utils": "^3.6.3",
     "@nuxthq/ui": "^2.5.0",
     "@playwright/test": "^1.36.1",
     "@types/node": "^18",
@@ -25,7 +28,8 @@
     "prettier-plugin-tailwindcss": "^0.3.0",
     "prisma": "^4.16.2",
     "tailwindcss": "^3.3.2",
-    "typescript": "latest"
+    "typescript": "latest",
+    "vitest": "^0.33.0"
   },
   "dependencies": {
     "@heroicons/vue": "^2.0.18",
