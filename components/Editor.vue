@@ -1,5 +1,4 @@
 <script setup>
-import { TrashIcon } from "@heroicons/vue/24/outline";
 import AlertDialog from "./AlertDialog";
 
 const toast = useToast();
