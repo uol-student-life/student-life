@@ -4,21 +4,20 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "dev:tests": "dotenv -e .env.test -- npx nuxt dev --port 3001",
+    "dev:tests": "npx nuxt dev --port 3001",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "test:e2e": "scripts/run-e2e.sh",
     "test:e2e:ui": "scripts/run-e2e.sh --ui",
-    "migrate:tests": "dotenv -e .env.test -- npx prisma migrate dev --name init",
-    "migrate:reset:tests": "dotenv -e .env.test -- npx prisma migrate reset --force"
+    "migrate:tests": "npx prisma migrate dev --name init",
+    "migrate:reset:tests": "npx prisma migrate reset --force"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxthq/ui": "^2.5.0",
     "@playwright/test": "^1.36.1",
     "@types/node": "^18",
-    "dotenv": "^16.3.1",
     "nuxt": "^3.6.0",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
