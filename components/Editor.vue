@@ -1,5 +1,7 @@
 <script setup>
 import AlertDialog from "./AlertDialog";
+import { debounce } from "lodash";
+import { onUnmounted } from "vue";
 
 const toast = useToast();
 
@@ -12,18 +14,19 @@ const isAlertDialogOpen = ref(false);
 const isSaving = ref(false);
 const isDeleting = ref(false);
 
-const saveJournal = () => {
-  // return if there is no text in editor
-  if (!journalContent?.html?.length) {
-    return;
-  }
-
+const saveJournal = async () => {
   if (props.currentJournal?.id) {
-    updateJournal();
+    await updateJournal();
   } else {
-    createJournal();
+    await createJournal();
   }
 };
+
+const debouncedSaveJournal = debounce(saveJournal, 1000);
+
+onUnmounted(() => {
+  debouncedSaveJournal.cancel();
+});
 
 const createJournal = async () => {
   const response = await $fetch("/api/journal", {
@@ -82,23 +85,14 @@ const updateJournal = async () => {
     onRequestError: () => {
       isSaving.value = false;
     },
-  })
-    .then((response) => {
-      toast.add({
-        title: "Journal saved",
-        description: "Your journal has been saved.",
-        color: "green",
-        icon: "i-heroicons-check-badge",
-      });
-    })
-    .catch((error) => {
-      toast.add({
-        title: "Fail to update journal",
-        description: error.data.message,
-        color: "red",
-        icon: "i-heroicons-exclamation-circle",
-      });
+  }).catch((error) => {
+    toast.add({
+      title: "Fail to update journal",
+      description: error.data.message,
+      color: "red",
+      icon: "i-heroicons-exclamation-circle",
     });
+  });
 
   props.journalUpdated();
 };
@@ -137,11 +131,14 @@ const deleteJournal = async () => {
 const onChange = (content) => {
   journalContent.html = content.html;
   journalContent.lexical = content.lexical;
+
+  debouncedSaveJournal();
 };
 const props = defineProps({
   currentJournal: Object,
   journalUpdated: Function,
   selectJournal: Function,
+  milestoneUpdated: Function,
 });
 
 const onCancelDialog = () => {
@@ -160,15 +157,6 @@ const onCancelDialog = () => {
         icon="i-heroicons-trash"
       >
         Delete
-      </UButton>
-
-      <UButton
-        color="gray"
-        @click="saveJournal"
-        icon="i-heroicons-pencil-square"
-        :loading="isSaving"
-      >
-        Save
       </UButton>
     </div>
 
@@ -192,6 +180,8 @@ const onCancelDialog = () => {
       :value="currentJournal?.lexical"
       @onChange="onChange"
       :key="currentJournal"
+      :currentJournal="currentJournal"
+      :milestoneUpdated="milestoneUpdated"
     />
   </div>
 </template>
