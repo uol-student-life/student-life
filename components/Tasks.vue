@@ -13,15 +13,15 @@
             />
           </template>
           <!-- Milestone name -->
-          <template #trailing p-4> 
-            <span class="truncate">{{ index + 1 }}. {{ item.mile_title }}</span>
+          <template #trailing> 
+            <span class="truncate p-4">{{ index + 1 }}. {{ item.mile_title }}</span>
           </template>
         </UButton>
       </template>
 
       <!-- Task list -->
       <template #item="{ item }">
-        <div v-for="tsk in item.tasks" class="in-line">
+        <div v-for="(tsk, index) in item.tasks" :key="index"  class="in-line">
           <div class="p-3 border-b mx-6" >
             <UCheckbox color="blue" v-bind:label="tsk"/>
           </div>
@@ -32,7 +32,7 @@
   </Section>
 </template>
 
-<!-- ---------------------------------- -->
+
 <script setup>
 import { _hidden } from '#tailwind-config/theme/aria';
 
