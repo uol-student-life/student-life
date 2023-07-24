@@ -11,6 +11,7 @@ onBeforeMount(() => {
 const toast = useToast();
 
 const journals = ref([]);
+const milestones = ref([]);
 const currentJournal = ref(null);
 const selectedMonthYear = ref({
   month: getMonth(new Date()),
@@ -45,6 +46,21 @@ const getJournalsList = async ({ showWelcomeMessage } = {}) => {
     });
 };
 
+const getMilestonesList = async () => {
+  const response = await $fetch("/api/milestones", {
+    method: "POST",
+  }).catch((error) => {
+    toast.add({
+      title: "Fail to fetch milestones",
+      description: error.data.message,
+      color: "red",
+      icon: "i-heroicons-exclamation-circle",
+    });
+  });
+
+  milestones.value = response;
+};
+
 const showPrevMonth = () => {
   const date = new Date(
     selectedMonthYear.value.year,
@@ -70,6 +86,7 @@ const showNextMonth = () => {
 onMounted(async () => {
   await getJournalsList({ showWelcomeMessage: true });
   await setCurrentJournal();
+  await getMilestonesList();
 });
 
 const handleJournalSelection = async (journal) => {
@@ -123,6 +140,7 @@ const getSelectedPeriod = () => {
           <Editor
             :currentJournal="currentJournal"
             :journalUpdated="getJournalsList"
+            :milestoneUpdated="getMilestonesList"
             :selectJournal="handleJournalSelection"
           />
         </ClientOnly>
@@ -131,7 +149,7 @@ const getSelectedPeriod = () => {
       <aside
         class="grid min-h-full grid-rows-[minmax(0,_1fr)_minmax(0,_1fr)] overflow-hidden"
       >
-        <Milestones />
+        <Milestones :milestones="milestones" />
         <Tasks />
       </aside>
     </main>

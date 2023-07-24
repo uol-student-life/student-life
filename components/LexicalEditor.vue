@@ -18,10 +18,14 @@ import { AutoLinkNode, LinkNode } from "@lexical/link";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { ListItemNode, ListNode } from "@lexical/list";
 import { CodeHighlightNode, CodeNode } from "@lexical/code";
+import { HashtagNode } from "@lexical/hashtag";
 
 import AutoLinkPlugin from "./LexicalEditor/AutoLinkPlugin.vue";
 import MarkdownShortcutPlugin from "./LexicalEditor/MarkdownShortcutPlugin.vue";
 import CodeHighlightPlugin from "./LexicalEditor/CodeHighlightPlugin.vue";
+import HashtagPlugin from "./LexicalEditor/HashtagPlugin";
+import MilestonePlugin from "./LexicalEditor/MilestonePlugin";
+import { MilestoneNode } from "./LexicalEditor/MilestoneNode";
 import { $getRoot } from "lexical";
 
 const config = {
@@ -37,6 +41,8 @@ const config = {
     LinkNode,
     CodeNode,
     CodeHighlightNode,
+    HashtagNode,
+    MilestoneNode,
   ],
   onError(error) {
     console.error(error);
@@ -69,6 +75,8 @@ const content = ref("");
 
 const props = defineProps({
   value: String,
+  currentJournal: Object,
+  milestoneUpdated: Function,
 });
 </script>
 
@@ -96,6 +104,11 @@ const props = defineProps({
         <MarkdownShortcutPlugin />
         <CodeHighlightPlugin />
         <LexicalListPlugin />
+        <HashtagPlugin
+          :milestoneUpdated="milestoneUpdated"
+          :currentJournal="currentJournal"
+        />
+        <MilestonePlugin />
       </LexicalComposer>
     </div>
   </div>
