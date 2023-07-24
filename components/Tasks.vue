@@ -1,6 +1,6 @@
 <template>
   <Section title="Tasks"> 
-
+  
     <!-- Adds the popover button to add new tasks  -->
     <template #suffix>
       <UPopover :popper="{ placement: 'bottom' }">
