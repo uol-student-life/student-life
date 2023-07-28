@@ -1,25 +1,30 @@
 <template>
   <Section title="Milestones">
-
     <!-- Adds the popover button to add new milestones  -->
     <template #suffix>
       <UPopover :popper="{ placement: 'bottom' }">
         <UButton color="gray" icon="i-heroicons-plus-circle" variant="link" />
-        <template #panel="{ close }" >
-          <form >
+        <template #panel="{ close }">
+          <form>
             <div class="align-center flex justify-between gap-4 p-6">
-              <UInput type='milestone' color="gray" placeholder="New Milestone"/>
+              <UInput
+                type="milestone"
+                color="gray"
+                placeholder="New Milestone"
+              />
               <UButton color="gray" type="submit"> Add Milestone </UButton>
             </div>
           </form>
         </template>
-      </UPopover> 
+      </UPopover>
     </template>
 
-    <template class="grid min-h-full grid-rows-[minmax(0,_1fr)_minmax(0,_1fr)] overflow-hidden">
+    <template
+      class="grid min-h-full grid-rows-[minmax(0,_1fr)_minmax(0,_1fr)] overflow-hidden"
+    >
       <section class="grid grid-rows-[auto_1fr] bg-stone-100 last:border-b-0">
         <div class="flex items-center justify-between gap-2 p-2 px-6">
-          <h2 class="flex items-center text-md font-extrabold text-stone-400">
+          <h2 class="text-md flex items-center font-extrabold text-stone-400">
             In Progress
           </h2>
           <h2 class="text-md font-extrabold text-stone-400">1</h2>
@@ -59,16 +64,15 @@
           </USlideover>
         </div>
       </section>
-      <section class="grid grid-rows-[auto_1fr]  bg-stone-100 last:border-b-0">
+      <section class="grid grid-rows-[auto_1fr] bg-stone-100 last:border-b-0">
         <div class="flex items-center justify-between gap-2 p-2 px-6">
-          <h2 class="flex items-center text-md font-extrabold text-stone-400">
+          <h2 class="text-md flex items-center font-extrabold text-stone-400">
             Completed
           </h2>
           <h2 class="text-md font-extrabold text-stone-400">0</h2>
         </div>
       </section>
     </template>
-
   </Section>
 </template>
 
