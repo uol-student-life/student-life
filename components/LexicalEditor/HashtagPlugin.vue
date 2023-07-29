@@ -134,5 +134,8 @@ const props = defineProps({
   />
   <LexicalHashtagPlugin />
   <MilestonePlugin />
-  <TaskPlugin :currentJournal="currentJournal" />
+  <TaskPlugin
+    :currentJournal="currentJournal"
+    :milestoneUpdated="milestoneUpdated"
+  />
 </template>

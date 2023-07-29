@@ -130,7 +130,7 @@ const attrs = [
           variant="outline"
           class="w-full justify-center bg-slate-400 p-3 text-center text-gray-50 hover:bg-slate-500 disabled:text-stone-300"
           type="submit"
-          :disabled="!description"
+          :disabled="!description || !milestone"
         >
           Add Task
         </UButton>

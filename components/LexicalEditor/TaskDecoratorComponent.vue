@@ -8,6 +8,7 @@ const STATUSES = {
 const toast = useToast();
 const description = ref(null);
 const checked = ref(false);
+const dueDate = ref(false);
 
 const getTaskDescriptionById = (id) => {
   $fetch("/api/task", {
@@ -18,6 +19,7 @@ const getTaskDescriptionById = (id) => {
     .then((response) => {
       description.value = response?.description;
       checked.value = response?.status === STATUSES.DONE;
+      dueDate.value = response?.dueDate;
     })
     .catch((error) => {
       toast.add({
@@ -33,34 +35,10 @@ onMounted(() => {
   getTaskDescriptionById(props.id);
 });
 
-const updateTaskStatus = (isChecked) => {
-  $fetch("/api/task/update", {
-    method: "POST",
-    params: {
-      id: props.id,
-    },
-    body: {
-      status: isChecked ? STATUSES.DONE : STATUSES.TODO,
-    },
-  })
-    .then((response) => {
-      description.value = response?.description;
-      checked.value = response?.status === STATUSES.DONE;
-    })
-    .catch((error) => {
-      toast.add({
-        title: "Fail to change task status",
-        description: error.data.message,
-        color: "red",
-        icon: "i-heroicons-exclamation-circle",
-      });
-    });
-};
-
-const handleChange = (event) => {
-  if (event?.target) {
-    updateTaskStatus(event.target.checked);
-  }
+const handleChange = (data = {}) => {
+  description.value = data.description;
+  checked.value = data.checked;
+  dueDate.value = data.dueDate;
 };
 
 const props = defineProps({
@@ -70,16 +48,12 @@ const props = defineProps({
 
 <template>
   <div class="my-4">
-    <UCheckbox
-      :modelValue="checked"
-      @update:modelValue="
-        (newValue) => {
-          handleChange(newValue);
-          return (checked = newValue);
-        }
-      "
-      :label="description"
-      @change="handleChange"
+    <Task
+      :description="description"
+      :id="id"
+      :checked="checked"
+      :onChange="handleChange"
+      :dueDate="dueDate"
     />
   </div>
 </template>
