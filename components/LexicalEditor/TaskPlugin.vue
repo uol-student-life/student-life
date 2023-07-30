@@ -64,6 +64,7 @@ const hideDropdown = () => {
 
 const handleTaskCreation = (task) => {
   hideDropdown();
+  props.milestoneUpdated();
   editor.update(() => {
     editor.dispatchCommand(INSERT_TASK_COMMAND, { id: task.id });
   });
@@ -71,6 +72,7 @@ const handleTaskCreation = (task) => {
 
 const props = defineProps({
   currentJournal: Object,
+  milestoneUpdated: Function,
 });
 </script>
 

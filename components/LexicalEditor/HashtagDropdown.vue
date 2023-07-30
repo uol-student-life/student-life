@@ -31,8 +31,8 @@ const createMilestone = async ({ name }) => {
     });
   });
 
-  //props.milestoneUpdated();
   if (response?.id) {
+    props.milestoneUpdated();
     editor.dispatchCommand(INSERT_MILESTONE_COMMAND, {
       id: response?.id,
     });
@@ -42,7 +42,7 @@ const createMilestone = async ({ name }) => {
 const tagMilestone = async ({ id, description }) => {
   editor.dispatchCommand(INSERT_MILESTONE_COMMAND, { id, description });
   hideHashtagDropdown();
-  await $fetch("/api/milestone/tag", {
+  const response = await $fetch("/api/milestone/tag", {
     method: "POST",
     params: {
       id,
@@ -60,6 +60,10 @@ const tagMilestone = async ({ id, description }) => {
       icon: "i-heroicons-exclamation-circle",
     });
   });
+
+  if (response) {
+    props.milestoneUpdated();
+  }
 };
 
 const addMilestone = () => {
