@@ -20,6 +20,41 @@ entity "student-life/Content" {
   **updatedAt** :   DateTime
 }
 
+entity "student-life/Task" {
+  **description**, varchar(255)
+  **status**, enum('TODO', 'DONE')
+  **dueDate**, DateTime
+  -- relationship --
+  **journalId** : Int @fk to "student-life/Journal".id
+  **milestoneId** : Int @fk to "student-life/Milestone".id
+  -- base entity --
+  **id** : Int, auto_increment() @id
+  **createdAt** :   DateTime
+  **updatedAt** :   DateTime
+}
+
+entity "student-life/Milestone" {
+  **description**, varchar(255)
+  **status**, enum('INPROGRESS', 'COMPLETED')
+  -- base entity --
+  **id** : Int, auto_increment() @id
+  **createdAt** :   DateTime
+  **updatedAt** :   DateTime
+}
+
+entity "student-life/MilestonesOnJournals" {
+  **journalId** : Int @fk to "student-life/Journal".id
+  **milestoneId** : Int @fk to "student-life/Milestone".id
+  -- base entity --
+  **(journalId, milestoneId)** : @id
+  **createdAt** :   DateTime
+  **updatedAt** :   DateTime
+}
+
 "student-life/Journal" ||--|| "student-life/Content"
+"student-life/Journal" |o--o{ "student-life/Task"
+"student-life/Milestone" |o--o{ "student-life/Task"
+"student-life/Journal" |o--o{ "student-life/MilestonesOnJournals"
+"student-life/Milestone" |o--o{ "student-life/MilestonesOnJournals"
 
 @enduml
