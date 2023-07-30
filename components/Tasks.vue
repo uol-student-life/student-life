@@ -65,6 +65,8 @@ import { computed } from "vue";
 import Task from "./Task";
 
 const list = computed(() => {
+  if (props.milestones.length === 0) return [];
+
   const milestonesList = props.milestones?.map((item) => {
     return { ...item, open: false };
   });
@@ -78,7 +80,10 @@ const onTaskSubmit = (closeFn) => {
 };
 
 const props = defineProps({
-  milestones: Array,
+  milestones: {
+    type: Array,
+    default: () => [],
+  },
   milestoneUpdated: Function,
 });
 </script>
