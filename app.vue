@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onBeforeMount } from "vue";
+import { onMounted, onBeforeMount, provide } from "vue";
 import { isSameDay, getMonth, getYear, subMonths, addMonths } from "date-fns";
 
 // Let's keep it light mode for now.
@@ -60,6 +60,10 @@ const getMilestonesList = async () => {
 
   milestones.value = response;
 };
+
+// use provide here as we need this function in the lexical decorator component.
+// Decorators use JS classes, and passing Vue function to it is difficult.
+provide("getMilestonesList", getMilestonesList);
 
 const showPrevMonth = () => {
   const date = new Date(
@@ -149,8 +153,11 @@ const getSelectedPeriod = () => {
       <aside
         class="grid min-h-full grid-rows-[minmax(0,_1fr)_minmax(0,_1fr)] overflow-hidden"
       >
-        <Milestones :milestones="milestones" />
-        <Tasks />
+        <Milestones
+          :milestones="milestones"
+          :selectJournal="handleJournalSelection"
+        />
+        <Tasks :milestones="milestones" :milestoneUpdated="getMilestonesList" />
       </aside>
     </main>
 

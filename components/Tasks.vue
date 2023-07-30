@@ -1,100 +1,89 @@
 <template>
-  <Section title="Tasks"> 
-  
+  <Section title="Tasks">
     <!-- Adds the popover button to add new tasks  -->
     <template #suffix>
       <UPopover :popper="{ placement: 'bottom' }">
         <UButton color="gray" icon="i-heroicons-plus-circle" variant="link" />
-        <template #panel="{ close }" >
-          <form >
-            <div class="grid grid-cols-1 align-center gap-4 p-6">
-              <USelect :options="[0, 1, 2, 3, 4, 5]" color="gray" variant="outline" placeholder="Select Milestone"/>
-              <UInput type='text' color="gray" placeholder="New Task"/>
-              <UInput type='datetime-local' color="gray" placeholder="Date" />
-              <div class="flex w-full justify-center">
-                <UButton color="blue" variant="outline" class="text-gray-50 bg-slate-400 justify-center p-3 w-2/3 hover:bg-slate-500" type="submit"> Add Task </UButton>
-              </div>
-            </div>
-          </form>
+        <template #panel="{ close }">
+          <TaskCreationForm
+            :options="milestones"
+            :onTaskSubmit="() => onTaskSubmit(close)"
+          />
         </template>
-      </UPopover> 
+      </UPopover>
     </template>
 
-    <!-- Accordion Component -->
-    <UAccordion :items="list" :ui="{ wrapper: 'flex flex-col w-full' }" size="xl">
+    <div class="overflow-auto">
+      <!-- Accordion Component -->
+      <UAccordion
+        :items="list"
+        :ui="{ wrapper: 'flex flex-col w-full' }"
+        size="xl"
+      >
+        <template #default="{ item, index, open }">
+          <UButton
+            variant="ghost"
+            class="border-b border-gray-200 pl-5 text-stone-400 hover:bg-stone-200 dark:border-gray-700"
+            :ui="{ rounded: 'rounded-none', padding: { sm: 'p-3' } }"
+          >
+            <!-- Chevron template -->
+            <template #leading>
+              <UIcon
+                name="i-heroicons-chevron-right-20-solid"
+                class="h-5 w-5 transform p-3 transition-transform duration-200"
+                :class="[open && 'rotate-90']"
+              />
+            </template>
+            <!-- Milestone name -->
+            <template #trailing>
+              <span class="truncate p-4">{{ item.description }}</span>
+            </template>
+          </UButton>
+        </template>
 
-      <template #default="{ item, index, open }">
-        <UButton variant="ghost" class="border-b text-stone-400 border-gray-200 dark:border-gray-700 hover:bg-stone-200" :ui="{ rounded :'rounded-none', padding: { sm:'p-3' } }">
-          <!-- Chevron template -->
-          <template #leading>
-            <UIcon
-              name="i-heroicons-chevron-right-20-solid"
-              class="w-5 h-5 p-4 transform transition-transform duration-200"
-              :class="[open && 'rotate-90']"
-            />
-          </template>
-          <!-- Milestone name -->
-          <template #trailing> 
-            <span class="truncate p-4">{{ index + 1 }}. {{ item.mile_title }}</span>
-          </template>
-        </UButton>
-      </template>
-
-      <!-- Task list -->
-      <template #item="{ item }">
-        <div v-for="(tsk, index) in item.tasks" :key="index"  class="in-line">
-          <div class="p-3 border-b mx-6" >
-            <UCheckbox color="blue" v-bind:label="tsk"/>
+        <!-- Task list -->
+        <template #item="{ item }">
+          <div v-for="(task, index) in item.tasks" :key="index" class="in-line">
+            <div class="mx-6 border-b p-3">
+              <Task
+                :description="task.description"
+                :id="task.id"
+                :checked="task.status === 'DONE'"
+                :dueDate="task.dueDate"
+              />
+            </div>
           </div>
-        </div>
-      </template>
-
-    </UAccordion>
+        </template>
+      </UAccordion>
+    </div>
   </Section>
 </template>
 
-
 <script setup>
-import { _hidden } from '#tailwind-config/theme/aria';
+import TaskCreationForm from "./TaskCreationForm";
+import { computed } from "vue";
+import Task from "./Task";
 
-// Sample list
-const m_list = [
-  {
-    mile_title: "First Milestone 1",
-    tasks: ["Item 1", "Item 2"]
-  },
-  {
-    mile_title: "Second Milestone 2",
-    tasks: ["Item 1", "Item 2"]
-  },
-  {
-    mile_title: "Third Milestone 3",
-    tasks: ["Item 1", "Item 2", "Item 2"]
-  },
-  {
-    mile_title: "Fourth Milestone 4",
-    tasks: ["Item 1", "Item 2"]
-  },
-  {
-    mile_title: "Fifth Milestone 5",
-    tasks: ["Item 1", "Item 2"]
-  },
-  {
-    mile_title: "Sixth Milestone 6",
-    tasks: ["Item 1", "Item 2", "Item 2"]
-  }
-]
-//  Sample list as ref
-const list = ref(m_list.map(item =>{
-  return { ...item, open: false }
-}))
+const list = computed(() => {
+  if (props.milestones.length === 0) return [];
 
-// -----Code to use with props----- 
-// const props = defineProps({
-//   milestones:{
-//     Array,
-//   }
-// });
-// const list = props.milestones;
+  const milestonesList = props.milestones?.map((item) => {
+    return { ...item, open: false };
+  });
 
+  return milestonesList.filter((item) => item.tasks.length);
+});
+
+const onTaskSubmit = (closeFn) => {
+  props.milestoneUpdated();
+  return closeFn();
+};
+
+const props = defineProps({
+  milestones: {
+    type: Array,
+    default: () => [],
+  },
+  milestoneUpdated: Function,
+});
 </script>

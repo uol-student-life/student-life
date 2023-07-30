@@ -24,8 +24,8 @@ import AutoLinkPlugin from "./LexicalEditor/AutoLinkPlugin.vue";
 import MarkdownShortcutPlugin from "./LexicalEditor/MarkdownShortcutPlugin.vue";
 import CodeHighlightPlugin from "./LexicalEditor/CodeHighlightPlugin.vue";
 import HashtagPlugin from "./LexicalEditor/HashtagPlugin";
-import MilestonePlugin from "./LexicalEditor/MilestonePlugin";
 import { MilestoneNode } from "./LexicalEditor/MilestoneNode";
+import { TaskNode } from "./LexicalEditor/TaskNode";
 import { $getRoot } from "lexical";
 
 const config = {
@@ -43,6 +43,7 @@ const config = {
     CodeHighlightNode,
     HashtagNode,
     MilestoneNode,
+    TaskNode,
   ],
   onError(error) {
     console.error(error);
@@ -108,7 +109,6 @@ const props = defineProps({
           :milestoneUpdated="milestoneUpdated"
           :currentJournal="currentJournal"
         />
-        <MilestonePlugin />
       </LexicalComposer>
     </div>
   </div>

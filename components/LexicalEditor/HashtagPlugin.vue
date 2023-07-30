@@ -8,31 +8,21 @@ import { mergeRegister } from "@lexical/utils";
 import { useEditor, LexicalHashtagPlugin, useMounted } from "lexical-vue";
 import { $isHashtagNode } from "@lexical/hashtag";
 import { useHashtag } from "./useHashtag";
-import { getSelectedNode, hideHashtagDropdown } from "./utils";
-import { createPopper } from "@popperjs/core";
+import {
+  getSelectedNode,
+  showLexicalDropdown,
+  hideHashtagDropdown,
+} from "./utils";
+import MilestonePlugin from "./MilestonePlugin";
+import TaskPlugin from "./TaskPlugin";
 import HashtagDropdown from "./HashtagDropdown";
 import { debounce } from "lodash";
 import { onUnmounted } from "vue";
+import { HASHTAG_DROPDOWN_SELECTOR } from "./constants";
 
 const toast = useToast();
 const editor = useEditor();
 const dropdownData = ref([]);
-
-const showDropdown = (element) => {
-  const tooltip = document.querySelector("#tooltip");
-  tooltip.classList.add("visible");
-  tooltip.classList.remove("hidden");
-  createPopper(element, tooltip, {
-    modifiers: [
-      {
-        name: "offset",
-        options: {
-          offset: [0, 10],
-        },
-      },
-    ],
-  });
-};
 
 const getMilestonesByDescription = (description) => {
   return $fetch("/api/milestones", {
@@ -112,7 +102,7 @@ useMounted(() => {
         const selectedNode = getSelectedNode(selection);
         if ($isHashtagNode(selectedNode)) {
           const element = editor.getElementByKey(selectedNode.getKey());
-          showDropdown(element);
+          showLexicalDropdown(element, HASHTAG_DROPDOWN_SELECTOR);
           debouncedUpdateDropdownData(
             selectedNode.getTextContent().substring(1)
           );
@@ -143,4 +133,9 @@ const props = defineProps({
     :items="dropdownData"
   />
   <LexicalHashtagPlugin />
+  <MilestonePlugin />
+  <TaskPlugin
+    :currentJournal="currentJournal"
+    :milestoneUpdated="milestoneUpdated"
+  />
 </template>

@@ -4,13 +4,19 @@ import { startOfMonth, endOfMonth, formatISO } from "date-fns";
 import type { Prisma } from "@prisma/client";
 
 export default defineEventHandler(async (event) => {
-  const { month, year } = getQuery(event);
+  const { month, year, ids } = getQuery(event);
   const where: Prisma.JournalWhereInput = {};
 
   if (month && year) {
     where.journalDate = {
       gte: formatISO(startOfMonth(new Date(year as number, month as number))),
       lte: formatISO(endOfMonth(new Date(year as number, month as number))),
+    };
+  }
+
+  if (ids) {
+    where.id = {
+      in: ids.split(",").map(Number),
     };
   }
 
