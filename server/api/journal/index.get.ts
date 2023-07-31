@@ -26,6 +26,7 @@ export default defineEventHandler(async (event) => {
     select: {
       id: true,
       content: true,
+      mood: true,
       journalDate: true,
       createdAt: true,
       updatedAt: true,

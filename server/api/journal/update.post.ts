@@ -1,4 +1,5 @@
 import { prisma } from "../../db";
+import type { Prisma } from "@prisma/client";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
@@ -40,12 +41,17 @@ export default defineEventHandler(async (event) => {
     },
   });
 
+  let updateJournalData: Prisma.JournalUpdateInput = {
+    updatedAt: new Date(),
+  };
+
+  if (body.mood !== undefined) {
+    updateJournalData.mood = body.mood;
+  }
+
   const updateJournal = await prisma.journal.update({
     where: { id: existingJournal.id },
-    data: {
-      contentId: updateContent.id,
-      updatedAt: new Date(),
-    },
+    data: updateJournalData,
   });
 
   const journal = await prisma.journal.findUnique({
@@ -53,6 +59,7 @@ export default defineEventHandler(async (event) => {
     select: {
       id: true,
       content: true,
+      mood: true,
       journalDate: true,
       createdAt: true,
       updatedAt: true,

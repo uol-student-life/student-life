@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Journal` ADD COLUMN `mood` ENUM('DEPRESSED', 'STRESS', 'RELAXED', 'MOTIVATED') NULL;

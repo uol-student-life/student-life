@@ -7,6 +7,7 @@
 # @prompt journalDate date of journal in YYYY-MM-DD format
 # @prompt html html content of journal entry
 # @prompt lexical lexical state of journal entry
+# @prompt mood mood of journal entry, it can be DEPRESSED, STRESS, RELAXED or MOTIVATED
 POST /api/journal HTTP/1.1
 Host: {{HOST}}
 Accept: application/json, text/html
@@ -15,7 +16,8 @@ Content-Type: application/json
 {
     "journalDate": "{{journalDate}}",
     "html": "{{html}}",
-    "lexical": "{{lexical}}"
+    "lexical": "{{lexical}}",
+    "mood": "{{mood}}"
 }
 
 ### 
@@ -37,12 +39,14 @@ Host: {{HOST}}
 # @prompt id id of journal entry
 # @prompt html html content of journal entry
 # @prompt lexical lexical state of journal entry
+# @prompt mood mood of journal entry, it can be DEPRESSED, STRESS, RELAXED or MOTIVATED
 POST /api/journal/update?id={{id}} HTTP/1.1
 Host: {{HOST}}
 
 {
     "html": "{{html}}",
-    "lexical": "{{lexical}}"
+    "lexical": "{{lexical}}",
+    "mood": "{{mood}}"
 }
 
 ###

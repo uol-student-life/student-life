@@ -3,6 +3,7 @@
 
 entity "student-life/Journal" {
   **journalDate** : DateTime
+  **mood**, enum('DEPRESSED', 'STRESS', 'RELAXED', 'MOTIVATED')
   -- relationship --
   **contentId** : Int @fk to "student-life/content".id
   -- base entity --
