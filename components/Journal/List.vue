@@ -15,7 +15,7 @@
         >
           {{ getJournalDay(journal.journalDate) }}
         </div>
-        <div class="line-clamp-3" v-html="journal.html"></div>
+        <div class="line-clamp-2">{{ stripHtml(journal.html) }}</div>
       </li>
     </ul>
   </div>
