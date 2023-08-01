@@ -28,6 +28,7 @@ export default defineEventHandler(async (event) => {
     data: {
       contentId: newContent.id,
       journalDate: stripTime(body.journalDate),
+      mood: body.mood ?? null,
     },
   });
 
@@ -36,6 +37,7 @@ export default defineEventHandler(async (event) => {
     select: {
       id: true,
       content: true,
+      mood: true,
       journalDate: true,
       createdAt: true,
       updatedAt: true,

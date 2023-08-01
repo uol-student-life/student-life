@@ -19,10 +19,19 @@ model Journal {
   tasks      Task[]
   milestones MilestonesOnJournals[]
 
+  mood MoodType?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([journalDate])
+}
+
+enum MoodType {
+  DEPRESSED
+  STRESS
+  RELAXED
+  MOTIVATED
 }
 
 model Content {
