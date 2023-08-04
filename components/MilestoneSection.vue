@@ -128,7 +128,7 @@ const props = defineProps({
         <li
           v-for="milestone in milestones"
           :key="milestone"
-          class="group flex cursor-pointer items-center justify-between gap-4 py-1 text-stone-600"
+          class="group flex cursor-pointer items-center justify-between gap-4 py-1 text-sm text-stone-600"
           @click="showJournals(milestone)"
         >
           {{ milestone.description }}
@@ -137,10 +137,14 @@ const props = defineProps({
             <UPopover :popper="{ placement: 'bottom' }">
               <UButton
                 color="gray"
-                icon="i-heroicons-check"
+                :icon="
+                  milestone.status === 'INPROGRESS'
+                    ? 'i-heroicons-check-circle'
+                    : 'i-heroicons-clock'
+                "
                 variant="link"
                 title="Change milestone status"
-                size="xs"
+                size="md"
                 class="invisible opacity-50 hover:opacity-100 group-hover:visible"
               />
 
@@ -206,14 +210,17 @@ const props = defineProps({
                 <span class="pl-2 font-semibold text-stone-500">Back</span>
               </div>
               <!-- journals counter -->
-              <div class="font-semibold text-stone-500">
+              <div class="font-semibold text-stone-400">
                 {{ journals.length }}
               </div>
             </div>
           </template>
           <!-- milestone name -->
-          <h2 class="mb-4 px-4 text-lg text-stone-500">
-            {{ selectedMilestone?.description }}
+          <h2
+            class="bg-primary-500 mx-4 mb-4 flex items-center space-x-3 rounded-lg px-4 py-3 text-lg text-white"
+          >
+            <UIcon class="h-6 w-6 text-white" name="i-heroicons-star-solid" />
+            <span>{{ selectedMilestone?.description }}</span>
           </h2>
           <!-- journal tagged with the milestone -->
           <ul>
@@ -223,7 +230,17 @@ const props = defineProps({
               class="cursor-pointer p-4 hover:bg-stone-100"
               @click="handleJournalClick(journal)"
             >
-              <div class="line-clamp-3" v-html="journal.html"></div>
+              <div class="flex space-x-2">
+                <div>
+                  <UIcon
+                    class="h-6 w-6 text-gray-400"
+                    name="i-heroicons-document-text"
+                  />
+                </div>
+                <span class="line-clamp-2">
+                  {{ stripHtml(journal.html) }}
+                </span>
+              </div>
             </li>
           </ul>
         </UCard>
