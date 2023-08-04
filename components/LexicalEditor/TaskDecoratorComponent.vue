@@ -1,59 +1,52 @@
 <script setup>
-import { onMounted } from "vue";
+import { watch } from "vue";
+import { updatedTask } from "~/stores/updatedTask";
+import { removedTask } from "~/stores/removedTask";
+import { $getNodeByKey } from "lexical";
+import { DELETE_TASK_COMMAND } from "~/components/LexicalEditor/TaskNode";
 
-const STATUSES = {
-  TODO: "TODO",
-  DONE: "DONE",
-};
-const toast = useToast();
-const description = ref(null);
-const checked = ref(false);
-const dueDate = ref(false);
-
-const getTaskDescriptionById = (id) => {
-  $fetch("/api/task", {
-    params: {
-      id,
-    },
-  })
-    .then((response) => {
-      description.value = response?.description;
-      checked.value = response?.status === STATUSES.DONE;
-      dueDate.value = response?.dueDate;
-    })
-    .catch((error) => {
-      toast.add({
-        title: "Fail to fetch task description",
-        description: error.data.message,
-        color: "red",
-        icon: "i-heroicons-exclamation-circle",
-      });
+watch(updatedTask, () => {
+  // sync task state in editor and in tasks section
+  if (updatedTask.id === props.id) {
+    props.editor.update(() => {
+      const node = $getNodeByKey(props.nodeKey);
+      if (!node) {
+        return;
+      }
+      node.setDescription(updatedTask.description);
+      node.setChecked(updatedTask.checked);
+      node.setDueDate(updatedTask.dueDate);
     });
-};
-
-onMounted(() => {
-  getTaskDescriptionById(props.id);
+  }
 });
 
-const handleChange = (data = {}) => {
-  description.value = data.description;
-  checked.value = data.checked;
-  dueDate.value = data.dueDate;
-};
+watch(removedTask, () => {
+  // sync task state in editor and in tasks section
+  if (removedTask.id === props.id) {
+    props.editor.dispatchCommand(DELETE_TASK_COMMAND, {
+      nodeKey: props.nodeKey,
+    });
+  }
+});
 
 const props = defineProps({
   id: Number,
+  nodeKey: String,
+  editor: Object,
+  description: String,
+  checked: Boolean,
+  dueDate: [String, Boolean],
 });
 </script>
 
 <template>
   <div class="my-4">
     <Task
-      :description="description"
-      :id="id"
-      :checked="checked"
-      :onChange="handleChange"
-      :dueDate="dueDate"
+      :description="props.description"
+      :id="props.id"
+      :checked="props.checked"
+      :dueDate="props.dueDate"
+      hideActions
     />
   </div>
 </template>

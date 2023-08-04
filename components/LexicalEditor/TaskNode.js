@@ -6,18 +6,32 @@ const NODE_TYPE = "task";
 
 export class TaskNode extends DecoratorNode {
   __id;
+  __description;
+  __checked = false;
+  __dueDate;
 
   static getType() {
     return NODE_TYPE;
   }
 
   static clone(node) {
-    return new TaskNode({ id: node.__id }, node.__key);
+    return new TaskNode(
+      {
+        id: node.__id,
+        description: node.__description,
+        checked: node.__checked,
+        dueDate: node.__dueDate,
+      },
+      node.__key
+    );
   }
 
-  constructor({ id }, key) {
+  constructor({ id, description, checked, dueDate }, key) {
     super(key);
     this.__id = id;
+    this.__description = description;
+    this.__checked = checked;
+    this.__dueDate = dueDate;
   }
 
   createDOM(config) {
@@ -48,9 +62,46 @@ export class TaskNode extends DecoratorNode {
     return self.__id;
   }
 
-  decorate() {
-    return h("div", { key: this.getKey() }, [
-      h(TaskDecoratorComponent, { id: this.getID() }),
+  getDescription() {
+    const self = this.getLatest();
+    return self.__description;
+  }
+
+  setDescription(description) {
+    const self = this.getWritable();
+    self.__description = description;
+  }
+
+  getChecked() {
+    const self = this.getLatest();
+    return self.__checked;
+  }
+
+  setChecked(checked) {
+    const self = this.getWritable();
+    self.__checked = checked;
+  }
+
+  getDueDate() {
+    const self = this.getLatest();
+    return self.__dueDate;
+  }
+
+  setDueDate(dueDate) {
+    const self = this.getWritable();
+    self.__dueDate = dueDate;
+  }
+
+  decorate(lexicalEditor) {
+    return h("div", { key: this.__key }, [
+      h(TaskDecoratorComponent, {
+        id: this.__id,
+        nodeKey: this.__key,
+        editor: lexicalEditor,
+        description: this.__description,
+        checked: this.__checked,
+        dueDate: this.__dueDate,
+      }),
     ]);
   }
 
@@ -69,3 +120,4 @@ export function $isTaskNode(node) {
 
 export const INSERT_TASK_COMMAND = createCommand();
 export const CREATE_TASK_COMMAND = createCommand();
+export const DELETE_TASK_COMMAND = createCommand();

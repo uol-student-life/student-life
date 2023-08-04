@@ -3,4 +3,5 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxthq/ui", "@nuxtjs/color-mode", "nuxt-icon"],
   css: ["~/assets/css/main.css"],
+  ssr: false,
 });

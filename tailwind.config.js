@@ -1,5 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  variants: {
+    extend: {
+      scale: ["group-hover"],
+    },
+  },
   content: [
     "./components/**/*.{js,vue,ts}",
     "./layouts/**/*.vue",

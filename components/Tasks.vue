@@ -5,7 +5,7 @@
       <UPopover :popper="{ placement: 'bottom' }">
         <UButton color="gray" icon="i-heroicons-plus-circle" variant="link" />
         <template #panel="{ close }">
-          <TaskCreationForm
+          <TaskForm
             :options="milestones"
             :onTaskSubmit="() => onTaskSubmit(close)"
           />
@@ -44,7 +44,7 @@
         <!-- Task list -->
         <template #item="{ item }">
           <div v-for="(task, index) in item.tasks" :key="index" class="in-line">
-            <div class="mx-6 border-b p-3">
+            <div class="mx-4 border-b p-3">
               <Task
                 :description="task.description"
                 :id="task.id"
@@ -60,7 +60,7 @@
 </template>
 
 <script setup>
-import TaskCreationForm from "./TaskCreationForm";
+import TaskForm from "./TaskForm";
 import { computed } from "vue";
 import Task from "./Task";
 

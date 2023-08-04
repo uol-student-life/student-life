@@ -2,7 +2,8 @@
 import {
   $getSelection,
   COMMAND_PRIORITY_LOW,
-  $createParagraphNode,
+  COMMAND_PRIORITY_HIGH,
+  $getNodeByKey,
 } from "lexical";
 import { mergeRegister } from "@lexical/utils";
 import { useEditor, useMounted } from "lexical-vue";
@@ -10,6 +11,8 @@ import {
   INSERT_TASK_COMMAND,
   CREATE_TASK_COMMAND,
   $createTaskNode,
+  DELETE_TASK_COMMAND,
+  TaskNode,
 } from "./TaskNode";
 import {
   getSelectedNode,
@@ -19,11 +22,48 @@ import {
 } from "./utils";
 import { vOnClickOutside } from "@vueuse/components";
 import { TASK_DROPDOWN_ID, TASK_DROPDOWN_SELECTOR } from "./constants";
-import TaskCreationForm from "~/components/TaskCreationForm";
+import TaskForm from "~/components/TaskForm";
 
+const STATUSES = {
+  TODO: "TODO",
+  DONE: "DONE",
+};
+const toast = useToast();
 const editor = useEditor();
 const selectedNode = ref(null);
 const isDropdownVisible = ref(false);
+
+const getTaskDataById = ({ node }) => {
+  const id = node.getID();
+
+  $fetch("/api/task", {
+    params: {
+      id,
+    },
+  })
+    .then((response) => {
+      if (!response.description) {
+        editor.dispatchCommand(DELETE_TASK_COMMAND, {
+          nodeKey: node.getKey(),
+        });
+        return;
+      }
+
+      editor.update(() => {
+        node.setDescription(response?.description);
+        node.setChecked(response?.status === STATUSES.DONE);
+        node.setDueDate(response?.dueDate);
+      });
+    })
+    .catch((error) => {
+      toast.add({
+        title: "Fail to fetch task description",
+        description: error.data.message,
+        color: "red",
+        icon: "i-heroicons-exclamation-circle",
+      });
+    });
+};
 
 useMounted(() => {
   return mergeRegister(
@@ -36,9 +76,6 @@ useMounted(() => {
         } else {
           selectedNode.value.replace(taskNode);
         }
-        const paragraphNode = $createParagraphNode();
-        taskNode.insertAfter(paragraphNode);
-        paragraphNode.select();
       },
       COMMAND_PRIORITY_LOW
     ),
@@ -53,7 +90,29 @@ useMounted(() => {
         isDropdownVisible.value = true;
       },
       COMMAND_PRIORITY_LOW
-    )
+    ),
+    editor.registerCommand(
+      DELETE_TASK_COMMAND,
+      ({ nodeKey }) => {
+        const node = $getNodeByKey(nodeKey);
+        node.remove();
+      },
+      COMMAND_PRIORITY_HIGH
+    ),
+    editor.registerMutationListener(TaskNode, (mutatedNodes) => {
+      editor.update(() => {
+        for (const [nodeKey, mutation] of mutatedNodes) {
+          const node = $getNodeByKey(nodeKey);
+          if (!node) {
+            continue;
+          }
+          const description = node.getDescription();
+          if (!description) {
+            getTaskDataById({ node });
+          }
+        }
+      });
+    })
   );
 });
 
@@ -82,7 +141,7 @@ const props = defineProps({
     :id="TASK_DROPDOWN_ID"
     v-on-click-outside="hideDropdown"
   >
-    <TaskCreationForm
+    <TaskForm
       :onTaskSubmit="handleTaskCreation"
       v-if="isDropdownVisible"
       :journalId="currentJournal.id"

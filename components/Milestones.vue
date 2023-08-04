@@ -24,11 +24,13 @@
         :milestones="milestonesInProgress"
         title="In Progress"
         :selectJournal="selectJournal"
+        :getMilestonesList="props.getMilestonesList"
       />
       <MilestoneSection
         :milestones="milestonesCompleted"
         title="Completed"
         :selectJournal="selectJournal"
+        :getMilestonesList="props.getMilestonesList"
       />
     </div>
   </Section>
@@ -49,5 +51,6 @@ const milestonesCompleted = computed(() => {
 const props = defineProps({
   milestones: Array,
   selectJournal: Function,
+  getMilestonesList: Function,
 });
 </script>
