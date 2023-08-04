@@ -10,15 +10,23 @@ const toast = useToast();
 
 const milestonesList = ref([]);
 const description = ref("");
-const dueDate = ref(new Date().toISOString());
+const noDueDate = ref(true);
+const dueDate = ref(null);
 const milestone = ref(null);
+
+whenever(
+  () => noDueDate.value,
+  () => {
+    dueDate.value = null;
+  }
+);
 
 const createTask = async () => {
   const response = await $fetch("/api/task", {
     method: "POST",
     body: {
       description: description.value,
-      dueDate: dueDate.value,
+      dueDate: noDueDate.value ? null : dueDate.value,
       journalId: props?.journalId || null,
       milestoneId: milestone.value,
     },
@@ -42,7 +50,7 @@ const updateTask = async (id) => {
     },
     body: {
       description: description.value,
-      dueDate: dueDate.value,
+      dueDate: noDueDate.value ? null : dueDate.value,
       journalId: props?.journalId || null,
       milestoneId: milestone.value,
     },
@@ -84,6 +92,11 @@ const getTaskDataById = (id) => {
     .then((response) => {
       description.value = response?.description;
       dueDate.value = response?.dueDate;
+      if (dueDate.value) {
+        noDueDate.value = false;
+      } else {
+        noDueDate.value = true;
+      }
       milestone.value = response?.milestone.id;
     })
     .catch((error) => {
@@ -168,8 +181,10 @@ const attrs = [
               :value="inputValue"
               v-on="inputEvents"
               placeholder="Date"
+              :disabled="noDueDate"
             />
           </div>
+          <UCheckbox v-model="noDueDate" label="No Due Date" />
         </template>
       </VCalendarDatePicker>
       <div class="flex w-full justify-center">

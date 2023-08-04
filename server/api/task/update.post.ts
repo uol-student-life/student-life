@@ -38,8 +38,14 @@ export default defineEventHandler(async (event) => {
   if ((body.status as TaskStatus) && task.status !== body.status)
     taskUpdate.status = body.status as TaskStatus;
 
-  if (body.dueDate !== undefined && task.dueDate !== new Date(body.dueDate))
+  if (body.dueDate === null) {
+    taskUpdate.dueDate = null;
+  } else if (
+    body.dueDate !== undefined &&
+    task.dueDate !== new Date(body.dueDate)
+  ) {
     taskUpdate.dueDate = new Date(body.dueDate);
+  }
 
   if (body.journalId !== undefined && task.journalId !== body.journalId) {
     if (body.journalId === null) {
