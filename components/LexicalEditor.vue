@@ -55,7 +55,7 @@ const emit = defineEmits(["onChange"]);
 // check whether editor is empty
 function isEmpty() {
   return (
-    $getRoot().getFirstChild().isEmpty() && $getRoot().getChildrenSize() === 1
+    $getRoot().getFirstChild()?.isEmpty() && $getRoot().getChildrenSize() === 1
   );
 }
 

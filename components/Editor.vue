@@ -179,7 +179,6 @@ const onCancelDialog = () => {
     <LexicalEditor
       :value="currentJournal?.lexical"
       @onChange="onChange"
-      :key="currentJournal"
       :currentJournal="currentJournal"
       :milestoneUpdated="milestoneUpdated"
     />

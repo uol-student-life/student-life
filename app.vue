@@ -122,7 +122,7 @@ const getSelectedPeriod = () => {
   <UNotifications />
   <div class="grid h-screen grid-rows-[minmax(0,_1fr)_auto] bg-neutral-50">
     <main
-      class="grid grid-cols-[minmax(20%,_340px)_minmax(50%,_1fr)_minmax(20%,_340px)]"
+      class="grid grid-cols-[minmax(20%,_380px)_minmax(50%,_1fr)_minmax(20%,_380px)]"
     >
       <aside
         class="grid min-h-full grid-rows-[minmax(0,_1fr)_minmax(0,_300px)] overflow-hidden"
@@ -146,6 +146,7 @@ const getSelectedPeriod = () => {
             :journalUpdated="getJournalsList"
             :milestoneUpdated="getMilestonesList"
             :selectJournal="handleJournalSelection"
+            :key="currentJournal"
           />
         </ClientOnly>
       </div>
@@ -156,6 +157,7 @@ const getSelectedPeriod = () => {
         <Milestones
           :milestones="milestones"
           :selectJournal="handleJournalSelection"
+          :getMilestonesList="getMilestonesList"
         />
         <Tasks :milestones="milestones" :milestoneUpdated="getMilestonesList" />
       </aside>

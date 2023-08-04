@@ -10,21 +10,53 @@ const toast = useToast();
 
 const milestonesList = ref([]);
 const description = ref("");
-const dueDate = ref(new Date().toISOString());
+const noDueDate = ref(true);
+const dueDate = ref(null);
 const milestone = ref(null);
+
+whenever(
+  () => noDueDate.value,
+  () => {
+    dueDate.value = null;
+  }
+);
 
 const createTask = async () => {
   const response = await $fetch("/api/task", {
     method: "POST",
     body: {
       description: description.value,
-      dueDate: dueDate.value,
+      dueDate: noDueDate.value ? null : dueDate.value,
       journalId: props?.journalId || null,
       milestoneId: milestone.value,
     },
   }).catch((error) => {
     toast.add({
       title: "Fail to save task",
+      description: error.data.message,
+      color: "red",
+      icon: "i-heroicons-exclamation-circle",
+    });
+  });
+
+  return response;
+};
+
+const updateTask = async (id) => {
+  const response = await $fetch("/api/task/update", {
+    method: "POST",
+    params: {
+      id,
+    },
+    body: {
+      description: description.value,
+      dueDate: noDueDate.value ? null : dueDate.value,
+      journalId: props?.journalId || null,
+      milestoneId: milestone.value,
+    },
+  }).catch((error) => {
+    toast.add({
+      title: "Fail to update task",
       description: error.data.message,
       color: "red",
       icon: "i-heroicons-exclamation-circle",
@@ -51,23 +83,52 @@ const getMilestones = async () => {
   }
 };
 
+const getTaskDataById = (id) => {
+  $fetch("/api/task", {
+    params: {
+      id,
+    },
+  })
+    .then((response) => {
+      description.value = response?.description;
+      dueDate.value = response?.dueDate;
+      if (dueDate.value) {
+        noDueDate.value = false;
+      } else {
+        noDueDate.value = true;
+      }
+      milestone.value = response?.milestone.id;
+    })
+    .catch((error) => {
+      toast.add({
+        title: "Fail to fetch task info",
+        description: error.data.message,
+        color: "red",
+        icon: "i-heroicons-exclamation-circle",
+      });
+    });
+};
+
 onMounted(() => {
   getMilestones();
+  if (props.id) {
+    getTaskDataById(props.id);
+  }
 });
 
 const handleSubmit = async (event) => {
   event.preventDefault();
 
-  const task = await createTask();
+  const task = props.id ? await updateTask(props.id) : await createTask();
   if (task) {
     props.onTaskSubmit?.(task);
   }
 };
 
 const props = defineProps({
-  options: Array,
   journalId: Number,
   onTaskSubmit: Function,
+  id: Number,
 });
 
 const attrs = [
@@ -120,8 +181,10 @@ const attrs = [
               :value="inputValue"
               v-on="inputEvents"
               placeholder="Date"
+              :disabled="noDueDate"
             />
           </div>
+          <UCheckbox v-model="noDueDate" label="No Due Date" />
         </template>
       </VCalendarDatePicker>
       <div class="flex w-full justify-center">
@@ -132,7 +195,8 @@ const attrs = [
           type="submit"
           :disabled="!description || !milestone"
         >
-          Add Task
+          <span v-if="props.id">Update task</span>
+          <span v-else>Add task</span>
         </UButton>
       </div>
     </div>

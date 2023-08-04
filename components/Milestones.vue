@@ -19,16 +19,18 @@
       </UPopover>
     </template>
 
-    <div class="overflow-auto">
+    <div class="overflow-auto space-y-6">
       <MilestoneSection
         :milestones="milestonesInProgress"
         title="In Progress"
         :selectJournal="selectJournal"
+        :getMilestonesList="props.getMilestonesList"
       />
       <MilestoneSection
         :milestones="milestonesCompleted"
         title="Completed"
         :selectJournal="selectJournal"
+        :getMilestonesList="props.getMilestonesList"
       />
     </div>
   </Section>
@@ -49,5 +51,6 @@ const milestonesCompleted = computed(() => {
 const props = defineProps({
   milestones: Array,
   selectJournal: Function,
+  getMilestonesList: Function,
 });
 </script>

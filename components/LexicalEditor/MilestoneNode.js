@@ -6,18 +6,23 @@ const NODE_TYPE = "milestone";
 
 export class MilestoneNode extends DecoratorNode {
   __id;
+  __description;
 
   static getType() {
     return NODE_TYPE;
   }
 
   static clone(node) {
-    return new MilestoneNode({ id: node.__id }, node.__key);
+    return new MilestoneNode(
+      { id: node.__id, description: node.__description },
+      node.__key
+    );
   }
 
-  constructor({ id }, key) {
+  constructor({ id, description }, key) {
     super(key);
     this.__id = id;
+    this.__description = description;
   }
 
   createDOM(config) {
@@ -51,9 +56,24 @@ export class MilestoneNode extends DecoratorNode {
     return self.__id;
   }
 
-  decorate() {
+  getDescription() {
+    const self = this.getLatest();
+    return self.__description;
+  }
+
+  setDescription(description) {
+    const self = this.getWritable();
+    self.__description = description;
+  }
+
+  decorate(editor) {
     return h("div", { key: this.getKey() }, [
-      h(MilestoneDecoratorComponent, { id: this.getID() }),
+      h(MilestoneDecoratorComponent, {
+        id: this.getID(),
+        description: this.getDescription(),
+        nodeKey: this.getKey(),
+        editor,
+      }),
     ]);
   }
 
@@ -71,3 +91,4 @@ export function $isMilestoneNode(node) {
 }
 
 export const INSERT_MILESTONE_COMMAND = createCommand();
+export const DELETE_MILESTONE_COMMAND = createCommand();

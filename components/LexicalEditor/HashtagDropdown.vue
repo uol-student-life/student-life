@@ -39,8 +39,10 @@ const createMilestone = async ({ name }) => {
   }
 };
 
-const tagMilestone = async ({ id, description }) => {
-  editor.dispatchCommand(INSERT_MILESTONE_COMMAND, { id, description });
+const tagMilestone = async ({ id }) => {
+  editor.getEditorState().read(() => {
+    editor.dispatchCommand(INSERT_MILESTONE_COMMAND, { id });
+  });
   hideHashtagDropdown();
   const response = await $fetch("/api/milestone/tag", {
     method: "POST",

@@ -1,10 +1,15 @@
 <script setup>
 import { ArrowLeftIcon } from "@heroicons/vue/24/outline";
+import { removedMilestone } from "../stores/removedMilestone";
+import { updatedMilestone } from "../stores/updatedMilestone";
+import MilestoneForm from "./MilestoneForm";
 
 const toast = useToast();
 const isOpen = ref(false);
 const selectedMilestone = ref(null);
 const journals = ref([]);
+const isAlertDialogOpen = ref(false);
+const isDeleting = ref(false);
 
 const showJournals = (milestone) => {
   isOpen.value = true;
@@ -46,10 +51,62 @@ const handleJournalClick = (journal) => {
   isOpen.value = false;
 };
 
+const onMilestoneUpdated = ({ data, close }) => {
+  close();
+  updatedMilestone.id = data.id;
+  updatedMilestone.description = data.description;
+  props.getMilestonesList();
+};
+
+const deleteMilestone = (id) => {
+  isDeleting.value = true;
+
+  $fetch("/api/milestone", {
+    method: "DELETE",
+    params: {
+      id: id,
+    },
+  })
+    .then(() => {
+      props.getMilestonesList();
+    })
+    .catch((error) => {
+      toast.add({
+        title: "Fail to remove milestone",
+        description: error.data.message,
+        color: "red",
+        icon: "i-heroicons-exclamation-circle",
+      });
+    })
+    .finally(() => {
+      isDeleting.value = false;
+      isAlertDialogOpen.value = false;
+      // need this to sync milestone state in editor and in milestone section
+      removedMilestone.id = id;
+    });
+};
+
+const onCancelDialog = () => {
+  isAlertDialogOpen.value = false;
+};
+
+const openAlertDialog = (e, milestone) => {
+  e.preventDefault();
+  e.stopPropagation();
+  selectedMilestone.value = milestone;
+  isAlertDialogOpen.value = true;
+};
+
+const onStatusUpdate = ({ close }) => {
+  close();
+  props.getMilestonesList();
+};
+
 const props = defineProps({
   milestones: Array,
   title: String,
   selectJournal: Function,
+  getMilestonesList: Function,
 });
 </script>
 
@@ -71,10 +128,64 @@ const props = defineProps({
         <li
           v-for="milestone in milestones"
           :key="milestone"
-          class="cursor-pointer py-1 text-stone-600"
+          class="group flex cursor-pointer items-center justify-between gap-4 py-1 text-sm text-stone-600"
           @click="showJournals(milestone)"
         >
           {{ milestone.description }}
+
+          <div class="flex items-center justify-between">
+            <UPopover :popper="{ placement: 'bottom' }">
+              <UButton
+                color="gray"
+                :icon="
+                  milestone.status === 'INPROGRESS'
+                    ? 'i-heroicons-check-circle'
+                    : 'i-heroicons-clock'
+                "
+                variant="link"
+                title="Change milestone status"
+                size="md"
+                class="invisible opacity-50 hover:opacity-100 group-hover:visible"
+              />
+
+              <template #panel="{ close }">
+                <MilestoneStatusForm
+                  :onSubmit="() => onStatusUpdate({ close })"
+                  :id="milestone.id"
+                  :status="milestone.status"
+                />
+              </template>
+            </UPopover>
+
+            <UPopover :popper="{ placement: 'bottom' }">
+              <UButton
+                color="gray"
+                icon="i-heroicons-pencil"
+                variant="link"
+                title="Edit milestone"
+                size="xs"
+                class="invisible opacity-50 hover:opacity-100 group-hover:visible"
+              />
+
+              <template #panel="{ close }">
+                <MilestoneForm
+                  :onSubmit="(data) => onMilestoneUpdated({ data, close })"
+                  :id="milestone.id"
+                  :description="milestone.description"
+                />
+              </template>
+            </UPopover>
+
+            <UButton
+              color="gray"
+              icon="i-heroicons-trash"
+              variant="link"
+              size="xs"
+              class="invisible opacity-50 hover:opacity-100 group-hover:visible"
+              title="Remove milestone"
+              @click="(e) => openAlertDialog(e, milestone)"
+            />
+          </div>
         </li>
       </ul>
       <!-- Panel slider -->
@@ -99,14 +210,17 @@ const props = defineProps({
                 <span class="pl-2 font-semibold text-stone-500">Back</span>
               </div>
               <!-- journals counter -->
-              <div class="font-semibold text-stone-500">
+              <div class="font-semibold text-stone-400">
                 {{ journals.length }}
               </div>
             </div>
           </template>
           <!-- milestone name -->
-          <h2 class="mb-4 px-4 text-lg text-stone-500">
-            {{ selectedMilestone?.description }}
+          <h2
+            class="bg-primary-500 mx-4 mb-4 flex items-center space-x-3 rounded-lg px-4 py-3 text-lg text-white"
+          >
+            <UIcon class="h-6 w-6 text-white" name="i-heroicons-star-solid" />
+            <span>{{ selectedMilestone?.description }}</span>
           </h2>
           <!-- journal tagged with the milestone -->
           <ul>
@@ -116,11 +230,36 @@ const props = defineProps({
               class="cursor-pointer p-4 hover:bg-stone-100"
               @click="handleJournalClick(journal)"
             >
-              <div class="line-clamp-3" v-html="journal.html"></div>
+              <div class="flex space-x-2">
+                <div>
+                  <UIcon
+                    class="h-6 w-6 text-gray-400"
+                    name="i-heroicons-document-text"
+                  />
+                </div>
+                <span class="line-clamp-2">
+                  {{ stripHtml(journal.html) }}
+                </span>
+              </div>
             </li>
           </ul>
         </UCard>
       </USlideover>
     </div>
+    <AlertDialog
+      :isOpen="isAlertDialogOpen"
+      :onCancel="onCancelDialog"
+      :onConfirm="() => deleteMilestone(selectedMilestone.id)"
+      confirmColor="red"
+      :loading="isDeleting"
+    >
+      <template #header> Are you absolutely sure? </template>
+
+      <template #body>
+        This action cannot be undone and will permanently remove your milestone.
+      </template>
+
+      <template #action-text> Yes, delete milestone </template>
+    </AlertDialog>
   </section>
 </template>
