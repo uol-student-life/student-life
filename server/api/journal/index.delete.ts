@@ -44,10 +44,10 @@ export default defineEventHandler(async (event) => {
   });
 
   await prisma.$transaction([
+    removeJournalFromMilestones,
+    removeJournalFromTasks,
     deleteJournal,
     deleteContent,
-    removeJournalFromTasks,
-    removeJournalFromMilestones,
   ]);
 
   return `Journal ${id} deleted.`;
