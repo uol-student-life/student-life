@@ -107,11 +107,15 @@ const props = defineProps({
   title: String,
   selectJournal: Function,
   getMilestonesList: Function,
+  dataTestId: String,
 });
 </script>
 
 <template>
-  <section class="bg-stone-100 px-6 last:border-b-0">
+  <section
+    class="bg-stone-100 px-6 last:border-b-0"
+    :data-testid="props.dataTestId"
+  >
     <div class="flex items-center justify-between gap-2 py-2">
       <h2 class="text-md flex items-center font-bold text-stone-400">
         {{ title }}
@@ -130,8 +134,9 @@ const props = defineProps({
           :key="milestone"
           class="group flex cursor-pointer items-center justify-between gap-4 py-1 text-sm text-stone-600"
           @click="showJournals(milestone)"
+          data-testid="milestone-item"
         >
-          {{ milestone.description }}
+          <span data-testid="milestone-name">{{ milestone.description }}</span>
 
           <div class="flex items-center justify-between">
             <UPopover :popper="{ placement: 'bottom' }">

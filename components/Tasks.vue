@@ -13,7 +13,7 @@
       </UPopover>
     </template>
 
-    <div class="overflow-auto">
+    <div class="overflow-auto" data-testid="tasks-list">
       <!-- Accordion Component -->
       <UAccordion
         :items="list"

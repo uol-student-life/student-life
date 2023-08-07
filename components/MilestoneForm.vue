@@ -56,7 +56,11 @@ const props = defineProps({
 </script>
 
 <template>
-  <form @submit="handleSubmit" @click="onFormClick">
+  <form
+    @submit="handleSubmit"
+    @click="onFormClick"
+    data-testid="milestone-form"
+  >
     <div class="align-center flex justify-between gap-4 p-6">
       <UInput
         v-model="description"

@@ -144,7 +144,7 @@ const attrs = [
 ];
 </script>
 <template>
-  <form @submit="handleSubmit" class="min-w-[300px]">
+  <form @submit="handleSubmit" class="min-w-[300px]" data-testid="task-form">
     <div class="align-center grid grid-cols-1 gap-4 bg-stone-50 p-6">
       <USelect
         v-model="milestone"
