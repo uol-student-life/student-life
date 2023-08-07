@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-[100px_1fr_100px] p-4">
+  <div class="grid grid-cols-[100px_1fr_100px] p-3">
     <div></div>
     <div class="text-center">
       <span class="text-slate-300 text-lg font-bold">Journal / </span>
