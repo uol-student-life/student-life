@@ -1,8 +1,12 @@
-# Nuxt 3 Minimal Starter
+# StudentLife
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+StudentLife is an open and free study journaling app that helps students find balance in life. StudentLife aims to help students find balance in life by providing a platform for them to reflect on their daily study activities and emotions, as well as intuitive task management based on milestones.
 
-## Requirements
+<center><img src="docs/preview.png" alt="StudentLife" width="300px"/></center>
+
+Demo Link: **Coming Soon!**
+
+## Development Guide
 
 You will need the following:
 
@@ -36,16 +40,12 @@ To use Node.js v16 with nvm, run:
 nvm use 16
 ```
 
-## Setup
-
 Make sure to install the dependencies:
 
 ```bash
 # npm
 npm install
 ```
-
-## Development Server
 
 Start the development server on `http://localhost:3000`:
 
@@ -54,23 +54,22 @@ Start the development server on `http://localhost:3000`:
 npm run dev
 ```
 
-## Production
+## Tests
 
-Build the application for production:
+We use [Playwright](https://playwright.dev/) for e2e testing:
 
-```bash
-# npm
-npm run build
-```
+- `npm run test:e2e` runs tests and exit
+- `npm run test:e2e:ui` opens a [browser UI](https://playwright.dev/docs/test-ui-mode) in watch mode for exploring and
+  re-running tests. It's suitable when writing tests.
 
-Locally preview production build:
+Make sure you execute these commands before running tests:
 
-```bash
-# npm
-npm run preview
-```
+- `npx playwright install` - install Playwright browsers
+- `cp .env.test.example .env.test`
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+For macOS need `timeout` utils for scripts:
+
+- `brew install coreutils`
 
 ## Prisma Schema Migration
 
@@ -100,7 +99,25 @@ npx prisma migrate dev --name <migration-name>
 
 You can also pass in `--create-only` flag to only generate migration without applying it.
 
-## Deploy with Docker Compose
+## Deployment
+
+Build the application for production:
+
+```bash
+# npm
+npm run build
+```
+
+Locally preview production build:
+
+```bash
+# npm
+npm run preview
+```
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+### Deploy with Docker Compose
 
 The compose file defines the main application service `student-life-nuxt` along with three dependent services:
 
@@ -117,9 +134,7 @@ Before running the whole application stack using the following command:
 $ docker compose -f ./docker-compose.full.yaml up -d
 ```
 
-### Expected result
-
-Listing containers should show three containers running and the port mapping as below:
+There should be three containers running and the port mapping as below:
 
 ```
 $ docker compose ps
@@ -139,24 +154,8 @@ $ docker compose -f ./docker-compose.full.yaml up -d --build
 
 For supporting local development, we provide `docker-compose.yaml` without the main application service included.
 
-### Clean up
-
-Stop and remove the containers
+To clean up, stop and remove the containers
 
 ```
 $ docker compose down
 ```
-
-## Tests
-
-We use [Playwright](https://playwright.dev/) for e2e testing:
-- `npm run test:e2e` runs tests and exit
-- `npm run test:e2e:ui` opens a [browser UI](https://playwright.dev/docs/test-ui-mode) in watch mode for exploring and 
-re-running tests. It's suitable when writing tests.  
-
-Make sure you execute these commands before running tests:
-- `npx playwright install` - install Playwright browsers
-- `cp .env.test.example .env.test`
-
-For macOS need `timeout` utils for scripts:
-- `brew install coreutils`
