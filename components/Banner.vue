@@ -39,6 +39,12 @@
 
     // selects an image based on the day
     const getImg = () => {
+        if (!props.currentJournal) {
+            return [
+                bannerImages[new Date().getDate() - 1]['link'], 
+                bannerImages[new Date().getDate() - 1]['reference'],
+            ];
+        }
         return [
             bannerImages[new Date(props.currentJournal.journalDate).getDate() - 1]['link'], 
             bannerImages[new Date(props.currentJournal.journalDate).getDate() - 1]['reference'], 
@@ -48,6 +54,12 @@
     // it can be adjusted to select a quote based on mood
     // selects a quote based on the day 
     const getQuote = () => {
+        if (!props.currentJournal) {
+            return [
+                bannerQuotes[new Date().getDate() - 1]['autor'], 
+                bannerQuotes[new Date().getDate() - 1]['quote']
+            ];
+        }
         return [
             bannerQuotes[new Date(props.currentJournal.journalDate).getDate() - 1]['autor'], 
             bannerQuotes[new Date(props.currentJournal.journalDate).getDate() - 1]['quote']
