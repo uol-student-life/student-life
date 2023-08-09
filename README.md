@@ -2,7 +2,7 @@
 
 StudentLife is an open and free study journaling app that helps students find balance in life. StudentLife aims to help students find balance in life by providing a platform for them to reflect on their daily study activities and emotions, as well as intuitive task management based on milestones.
 
-<center><img src="docs/preview.png" alt="StudentLife" width="300px"/></center>
+<img src="docs/preview.png" alt="StudentLife"/>
 
 Demo Link: **Coming Soon!**
 
