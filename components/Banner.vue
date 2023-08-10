@@ -1,7 +1,7 @@
 <template>
   <div
     class="basis-[35%] items-center bg-center"
-    v-bind:style="{ backgroundImage: 'url(' + getImg()[0] + ')' }"
+    v-bind:style="{ backgroundImage: 'url(' + banner?.link + ')' }"
   >
     <!-- Hero -->
     <div class="h-[15%] text-center backdrop-blur-2xl">
@@ -13,12 +13,12 @@
         <h2
           class="m-2 text-center text-lg font-semibold text-slate-100 drop-shadow-[2px_2px_4px_rgba(0,0,0)]"
         >
-          {{ getQuote()[1] }}
+          {{ quote?.quote }}
         </h2>
         <p
           class="text-md m-2 text-right font-semibold text-slate-100 drop-shadow-[2px_2px_4px_rgba(0,0,0)]"
         >
-          {{ getQuote()[0] }}
+          {{ quote?.author }}
         </p>
       </div>
     </div>
@@ -27,7 +27,7 @@
       class="group relative float-right flex h-[15%] items-center p-1 drop-shadow-[1px_1px_2px_rgba(0,0,0)] hover:bg-black/[.5]"
     >
       <div class="invisible text-white group-hover:visible">
-        <p class="text-right text-xs">{{ getImg()[1] }}</p>
+        <p class="text-right text-xs">{{ banner?.reference }}</p>
         <p class="text-right text-xs">
           Quotes by <a href="https://www.brainyquote.com/">BrainyQuote</a>
         </p>
@@ -42,47 +42,39 @@
 
 <script setup>
 import { _backgroundImage } from "#tailwind-config/theme";
-import bannerImages from "../static/images.json";
-import bannerQuotes from "../static/quotes.json";
 
 const props = defineProps({
   currentJournal: Object,
 });
 
+const banner = ref(null);
+const quote = ref(null);
+
 // selects an image based on the day
-const getImg = () => {
-  if (!props.currentJournal) {
-    return [
-      bannerImages[new Date().getDate() - 1]["link"],
-      bannerImages[new Date().getDate() - 1]["reference"],
-    ];
-  }
-  return [
-    bannerImages[new Date(props.currentJournal.journalDate).getDate() - 1][
-      "link"
-    ],
-    bannerImages[new Date(props.currentJournal.journalDate).getDate() - 1][
-      "reference"
-    ],
-  ];
+const getImg = async () => {
+  $fetch("/api/banner/random").then((response) => {
+    banner.value = response;
+  });
 };
 
 // it can be adjusted to select a quote based on mood
 // selects a quote based on the day
-const getQuote = () => {
-  if (!props.currentJournal) {
-    return [
-      bannerQuotes[new Date().getDate() - 1]["author"],
-      bannerQuotes[new Date().getDate() - 1]["quote"],
-    ];
-  }
-  return [
-    bannerQuotes[new Date(props.currentJournal.journalDate).getDate() - 1][
-      "author"
-    ],
-    bannerQuotes[new Date(props.currentJournal.journalDate).getDate() - 1][
-      "quote"
-    ],
-  ];
+const getQuote = async () => {
+  $fetch("/api/quote/random").then((response) => {
+    quote.value = response;
+  });
 };
+
+onMounted(() => {
+  getImg();
+  getQuote();
+});
+
+watch(
+  () => props.currentJournal,
+  () => {
+    getImg();
+    getQuote();
+  }
+);
 </script>
