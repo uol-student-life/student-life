@@ -1,10 +1,10 @@
 <script setup>
-import { onMounted, onBeforeMount, provide } from "vue";
+import { onMounted, provide } from "vue";
 import { isSameDay, getMonth, getYear, subMonths, addMonths } from "date-fns";
 
 // Let's keep it light mode for now.
 const colorMode = useColorMode();
-onBeforeMount(() => {
+onMounted(() => {
   colorMode.preference = "light";
 });
 
@@ -138,8 +138,8 @@ const getSelectedPeriod = () => {
         <MoodTracker />
       </aside>
 
-      <div class="overflow-auto border-x border-x-neutral-200">
-        <Hero :date="currentJournal?.journalDate" />
+      <div class="flex flex-col overflow-auto border-x border-x-neutral-200">
+        <Banner :currentJournal="currentJournal" />
         <ClientOnly>
           <Editor
             :currentJournal="currentJournal"

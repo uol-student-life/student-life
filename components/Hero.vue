@@ -1,9 +1,16 @@
 <template>
-  <div class="grid grid-cols-[100px_1fr_100px] p-4">
+  <div class="grid grid-cols-[100px_1fr_100px] p-2">
     <div></div>
     <div class="text-center">
-      <span class="text-stone-400">Journal / </span>
-      <span data-testid="current-journal-date">{{ getFormattedDate() }}</span>
+      <span
+        class="text-md font-semibold text-white drop-shadow-[2px_2px_4px_rgba(0,0,0)]"
+        >Journal /
+      </span>
+      <span
+        class="text-md font-semibold text-white drop-shadow-[2px_2px_4px_rgba(0,0,0)]"
+        data-testid="current-journal-date"
+        >{{ getFormattedDate() }}</span
+      >
     </div>
   </div>
 </template>

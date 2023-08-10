@@ -1,0 +1,219 @@
+[
+    {
+        "id": 1,
+        "author": "Theodore Roosevelt",
+        "quote": "Believe you can and you're halfway there.",
+        "reference": "'Theodore Roosevelt Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/theodore_roosevelt_380703",
+        "mood": "DEPRESSED"
+    },
+    {
+        "id": 2,
+        "author": "John Major",
+        "quote": "Recovery begins from the darkest moment.",
+        "reference": "'John Major Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/john_major_464664",
+        "mood": "DEPRESSED"
+    },
+    {
+        "id": 3,
+        "author": "Hubert H. Humphrey",
+        "quote": "The greatest healing therapy is friendship and love.",
+        "reference": "'Hubert H. Humphrey Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/hubert_h_humphrey_152600",
+        "mood": "DEPRESSED"
+    },
+    {
+        "id": 4,
+        "author": "William Morris",
+        "quote": "The true secret of happiness lies in taking a genuine interest in all the details of daily life.",
+        "reference": "'William Morris Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/william_morris_386448",
+        "mood": "DEPRESSED"
+    },
+    {
+        "id": 5,
+        "author": "William Butler Yeats",
+        "quote": "There are no strangers here; only friends you haven't yet met.",
+        "reference": "William Butler Yeats Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/william_butler_yeats_383082",
+        "mood": "DEPRESSED"
+    },
+    {
+        "id": 6,
+        "author": "Theodore Roethke",
+        "quote": "Over every mountain there is a path, although it may not be seen from the valley.",
+        "reference": "Theodore Roethke Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/theodore_roethke_120661",
+        "mood": "DEPRESSED"
+    },
+    {
+        "id": 7,
+        "author": "Aristotle Onassis",
+        "quote": "It is during our darkest moments that we must focus to see the light.",
+        "reference": "Aristotle Onassis Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/aristotle_onassis_119068",
+        "mood": "DEPRESSED"
+    },
+    {
+        "id": 8,
+        "author": "Buddha",
+        "quote": "Do not dwell in the past, do not dream of the future, concentrate the mind on the present moment.",
+        "reference": "Buddha Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/buddha_101052",
+        "mood": "DEPRESSED"
+    },
+    {
+        "id": 9,
+        "author": "Michelle Obama",
+        "quote": "Do not be afraid to ask for help. Nobody gets through college on their own.",
+        "reference": "Michelle Obama Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/michelle_obama_791418",
+        "mood": "DEPRESSED"
+    },
+    {
+        "id": 10,
+        "author": "Francis of Assisi",
+        "quote": "Start by doing what's necessary; then do what's possible; and suddenly you are doing the impossible.",
+        "reference": "Francis of Assisi Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/francis_of_assisi_121023",
+        "mood": "MOTIVATED"
+    },
+    {
+        "id": 11,
+        "author": "Walt Disney",
+        "quote": "If you can dream it, you can do it.",
+        "reference": "'Walt Disney Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/walt_disney_130027",
+        "mood": "MOTIVATED"
+    },
+    {
+        "id": 12,
+        "author": "Napoleon Hill",
+        "quote": "Strength and growth come only through continuous effort and struggle.",
+        "reference": "Napoleon Hill Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/napoleon_hill_152854",
+        "mood": "MOTIVATED"
+    },
+    {
+        "id": 13,
+        "author": "Mahatma Gandhi",
+        "quote": "Strength does not come from physical capacity. It comes from an indomitable will.",
+        "reference": "Mahatma Gandhi Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/mahatma_gandhi_122084",
+        "mood": "MOTIVATED"
+    },
+    {
+        "id": 14,
+        "author": "Alexander the Great",
+        "quote": "There is nothing impossible to him who will try.",
+        "reference": "Alexander the Great Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/alexander_the_great_148611",
+        "mood": "MOTIVATED"
+    },
+    {
+        "id": 15,
+        "author": "Margaret Thatcher",
+        "quote": "Plan your work for today and every day, then work your plan.",
+        "reference": "Margaret Thatcher Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/margaret_thatcher_382871",
+        "mood": "MOTIVATED"
+    },
+    {
+        "id": 16,
+        "author": "Marie Curie",
+        "quote": "Nothing in life is to be feared, it is only to be understood. Now is the time to understand more, so that we may fear less.",
+        "reference": "Marie Curie Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/marie_curie_389010",
+        "mood": "STRESSED"
+    },
+    {
+        "id": 17,
+        "author": "Mahatma Gandhi",
+        "quote": "It is health that is real wealth and not pieces of gold and silver.",
+        "reference": "Mahatma Gandhi Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/mahatma_gandhi_109078",
+        "mood": "STRESSED"
+    },
+    {
+        "id": 18,
+        "author": "Albert Einstein",
+        "quote": "Strive not to be a success, but rather to be of value.",
+        "reference": " Albert Einstein Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/albert_einstein_122232",
+        "mood": "STRESSED"
+    },
+    {
+        "id": 19,
+        "author": "Winston Churchill",
+        "quote": "Success consists of going from failure to failure without loss of enthusiasm.",
+        "reference": "Winston Churchill Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/winston_churchill_131188",
+        "mood": "STRESSED"
+    },
+    {
+        "id": 20,
+        "author": "Stephen Hawking",
+        "quote": "However difficult life may seem, there is always something you can do and succeed at.",
+        "reference": "'Stephen Hawking Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/stephen_hawking_627103",
+        "mood": "STRESSED"
+    },
+    {
+        "id": 21,
+        "author": "Woody Allen",
+        "quote": "Eighty percent of success is showing up.",
+        "reference": "'Woody Allen Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/woody_allen_145883",
+        "mood": "STRESSED"
+    },
+    {
+        "id": 22,
+        "author": "Charles Spurgeon",
+        "quote": "It is not how much we have, but how much we enjoy, that makes happiness.",
+        "reference": "Charles Spurgeon Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/charles_spurgeon_131342",
+        "mood": "STRESSED"
+    },
+    {
+        "id": 23,
+        "author": "Epictetus",
+        "quote": "There is only one way to happiness and that is to cease worrying about things which are beyond the power of our will.",
+        "reference": "Epictetus Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/epictetus_121546",
+        "mood": "STRESSED"
+    },
+    {
+        "id": 24,
+        "author": "Mahatma Gandhi",
+        "quote": "Happiness is when what you think, what you say, and what you do are in harmony.",
+        "reference": "Mahatma Gandhi Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/mahatma_gandhi_105593",
+        "mood": "RELAXED"
+    },
+    {
+        "id": 25,
+        "author": "Omar Khayyam",
+        "quote": "Be happy for this moment. This moment is your life.",
+        "reference": "Omar Khayyam Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/omar_khayyam_378553",
+        "mood": "RELAXED"
+    },
+    {
+        "id": 26,
+        "author": "Joseph Addison",
+        "quote": "Cheerfulness is the best promoter of health and is as friendly to the mind as to the body.",
+        "reference": "Joseph Addison Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/joseph_addison_148369",
+        "mood": "RELAXED"
+    },
+    {
+        "id": 27,
+        "author": "Michelle Obama",
+        "quote": "Just try new things. Don't be afraid. Step out of your comfort zones and soar, all right?",
+        "reference": "Michelle Obama Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/michelle_obama_791412",
+        "mood": "RELAXED"
+    },
+    {
+        "id": 28,
+        "author": "Marcus Aurelius",
+        "quote": "Nowhere can man find a quieter or more untroubled retreat than in his own soul.",
+        "reference": "Marcus Aurelius Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/marcus_aurelius_107904",
+        "mood": "RELAXED"
+    },
+    {
+        "id": 29,
+        "author": "Marcus Aurelius",
+        "quote": "When you arise in the morning, think of what a precious privilege it is to be alive - to breathe, to think, to enjoy, to love.",
+        "reference": "Marcus Aurelius Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/marcus_aurelius_132163",
+        "mood": "RELAXED"
+    },
+    {
+        "id": 30,
+        "author": "Dalai Lama",
+        "quote": "Calm mind brings inner strength and self-confidence, so that's very important for good health.",
+        "reference": "Dalai Lama Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 2 August 2023. https://www.brainyquote.com/quotes/dalai_lama_621056",
+        "mood": "RELAXED"
+    },
+    {
+        "id": 31,
+        "author": "Confucius",
+        "quote": "It does not matter how slowly you go as long as you do not stop.",
+        "reference": "Confucius Quotes.' BrainyQuote.com. BrainyMedia Inc, 2023. 7 August 2023. https://www.brainyquote.com/quotes/confucius_140908",
+        "mood": "RELAXED"
+    }
+]
