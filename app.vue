@@ -1,10 +1,10 @@
 <script setup>
-import { onMounted, onBeforeMount, provide } from "vue";
+import { onMounted, provide } from "vue";
 import { isSameDay, getMonth, getYear, subMonths, addMonths } from "date-fns";
 
 // Let's keep it light mode for now.
 const colorMode = useColorMode();
-onBeforeMount(() => {
+onMounted(() => {
   colorMode.preference = "light";
 });
 
