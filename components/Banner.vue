@@ -72,13 +72,13 @@ const getImg = () => {
 const getQuote = () => {
   if (!props.currentJournal) {
     return [
-      bannerQuotes[new Date().getDate() - 1]["autor"],
+      bannerQuotes[new Date().getDate() - 1]["author"],
       bannerQuotes[new Date().getDate() - 1]["quote"],
     ];
   }
   return [
     bannerQuotes[new Date(props.currentJournal.journalDate).getDate() - 1][
-      "autor"
+      "author"
     ],
     bannerQuotes[new Date(props.currentJournal.journalDate).getDate() - 1][
       "quote"
