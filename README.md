@@ -4,7 +4,7 @@ StudentLife is an open and free study journaling app that helps students find ba
 
 <img src="docs/preview.png" alt="StudentLife"/>
 
-Demo Link: **Coming Soon!**
+[ [Demo Link](https://student-life.vercel.app) ]
 
 ## Development Guide
 
