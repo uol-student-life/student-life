@@ -119,6 +119,7 @@ const getSelectedPeriod = () => {
 </script>
 
 <template>
+  <NuxtLoadingIndicator color="#78716c" :height="3" />
   <UNotifications />
   <div class="grid h-screen grid-rows-[minmax(0,_1fr)_auto] bg-neutral-50">
     <main
