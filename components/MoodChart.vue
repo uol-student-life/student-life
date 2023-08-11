@@ -24,6 +24,7 @@ const config = {
   data: data,
   options: {
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
       y: {
         ticks: {
@@ -69,7 +70,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
-    <canvas id="myChart" class="w-64"></canvas>
+  <div class="w-11/12">
+    <canvas id="myChart"></canvas>
   </div>
 </template>
