@@ -113,13 +113,21 @@ const props = defineProps({
   >
     <ul class="max-h-[300px] overflow-auto">
       <li class="cursor-pointer rounded px-2 py-1 hover:bg-stone-200">
-        <button class="flex w-full items-center gap-2" @click="addMilestone">
+        <button
+          class="flex w-full items-center gap-2"
+          @click="addMilestone"
+          data-testid="editor-add-milestone"
+        >
           <PlusIcon class="h-4 w-4" /> add milestone
         </button>
       </li>
 
       <li class="cursor-pointer rounded px-2 py-1 hover:bg-stone-200">
-        <button class="flex w-full items-center gap-2" @click="addTask">
+        <button
+          class="flex w-full items-center gap-2"
+          @click="addTask"
+          data-testid="editor-add-task"
+        >
           <PlusIcon class="h-4 w-4" /> add task
         </button>
       </li>

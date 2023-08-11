@@ -122,7 +122,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="group flex items-center justify-between gap-4">
+  <div class="group flex items-center justify-between gap-4" data-testid="task">
     <UCheckbox
       :modelValue="checked"
       @update:modelValue="

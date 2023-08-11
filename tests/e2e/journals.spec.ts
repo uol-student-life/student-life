@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { resetDB } from "../helpers/reset-db";
+import { fakeDate } from "../e2e-utils";
 
 test.afterAll(async () => {
   await resetDB();
@@ -8,8 +9,8 @@ test.afterAll(async () => {
 test.describe("Journals", () => {
   test("can create/update/delete journal", async ({ page }) => {
     await fakeDate(page);
+    await page.route(/unsplash/, (route) => route.abort());
     await page.goto("/");
-    await expect(page.getByText("Save")).toBeVisible();
 
     // can create new journal
     await createJournal(page, { text: "New journal" });
@@ -20,7 +21,6 @@ test.describe("Journals", () => {
     // can update journal
     await page.focus('div[contenteditable="true"]');
     await page.keyboard.type(" Updated");
-    await page.getByText("Save").click();
     await expect(
       journalsSection.getByText("New journal Updated")
     ).toBeVisible();
@@ -35,8 +35,10 @@ test.describe("Journals", () => {
     await fakeDate(page);
     await page.goto("/");
     await expect(
-      await page.getByTestId("current-journal-date").textContent()
-    ).toBe("10th July 2023");
+      page.locator(
+        '[data-testid="current-journal-date"]:has-text("10th July 2023")'
+      )
+    ).toBeVisible();
   });
 
   test("selected month should be visible", async ({ page }) => {
@@ -50,6 +52,8 @@ test.describe("Journals", () => {
   test("can create few journals and select them in calendar", async ({
     page,
   }) => {
+    await fakeDate(page, "July 11 2023 13:37:11");
+    await page.route(/unsplash/, (route) => route.abort());
     await page.goto("/");
 
     // go to calendar
@@ -57,7 +61,6 @@ test.describe("Journals", () => {
 
     // create new journal on 11th july
     await page.locator("[data-test-day-button]:text-is('11')").click();
-    await fakeDate(page, "July 11 2023 13:37:11");
     await createJournal(page, { text: "New journal 11th" });
     await expect(
       page.locator(
@@ -67,7 +70,6 @@ test.describe("Journals", () => {
 
     // create new journal on 12th july
     await page.locator("[data-test-day-button]:text-is('12')").click();
-    await fakeDate(page, "July 12 2023 13:37:11");
     await createJournal(page, { text: "New journal 12th" });
     await expect(
       page.locator(
@@ -85,29 +87,7 @@ test.describe("Journals", () => {
 
 async function createJournal(page, { text }) {
   // create new journal
+  await page.waitForSelector('div[contenteditable="true"]');
   await page.focus('div[contenteditable="true"]');
   await page.keyboard.type(text);
-  await page.getByText("Save").click();
-}
-
-async function fakeDate(page, date = "July 10 2023 13:37:11") {
-  const fakeNow = new Date(date).valueOf();
-
-  // https://github.com/microsoft/playwright/issues/6347#issuecomment-1085850728
-  await page.addInitScript(`{
-    // Extend Date constructor to default to fakeNow
-    Date = class extends Date {
-      constructor(...args) {
-        if (args.length === 0) {
-          super(${fakeNow});
-        } else {
-          super(...args);
-        }
-      }
-    }
-      // Override Date.now() to start from fakeNow
-      const __DateNowOffset = ${fakeNow} - Date.now();
-      const __DateNow = Date.now;
-      Date.now = () => __DateNow() + __DateNowOffset;
-    }`);
 }

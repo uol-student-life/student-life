@@ -23,12 +23,14 @@
       <MilestoneSection
         :milestones="milestonesInProgress"
         title="In Progress"
+        dataTestId="milestone-progress-section"
         :selectJournal="selectJournal"
         :getMilestonesList="props.getMilestonesList"
       />
       <MilestoneSection
         :milestones="milestonesCompleted"
         title="Completed"
+        dataTestId="milestone-completed-section"
         :selectJournal="selectJournal"
         :getMilestonesList="props.getMilestonesList"
       />

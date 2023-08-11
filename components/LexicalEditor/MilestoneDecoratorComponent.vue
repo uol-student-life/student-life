@@ -39,6 +39,6 @@ const props = defineProps({
 <template>
   <UBadge color="orange" variant="solid">
     <StarIcon class="mr-1 h-4 w-4" />
-    <span>{{ props.description }}</span>
+    <span data-testid="editor-milestone">{{ props.description }}</span>
   </UBadge>
 </template>
