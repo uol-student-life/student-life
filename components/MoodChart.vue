@@ -25,6 +25,7 @@ const config = {
   options: {
     responsive: true,
     maintainAspectRatio: false,
+    spanGaps: true,
     scales: {
       y: {
         ticks: {
