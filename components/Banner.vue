@@ -22,20 +22,28 @@
         </p>
       </div>
     </div>
-    <!-- Information button -->
-    <div
-      class="group relative float-right flex h-[15%] items-center p-1 drop-shadow-[1px_1px_2px_rgba(0,0,0)] hover:bg-black/[.5]"
-    >
-      <div class="invisible text-white group-hover:visible">
-        <p class="text-right text-xs">{{ banner?.reference }}</p>
-        <p class="text-right text-xs">
-          Quotes by <a href="https://www.brainyquote.com/">BrainyQuote</a>
-        </p>
-      </div>
-      <UIcon
-        name="i-heroicons-information-circle-20-solid"
-        class="h-5 w-5 p-2 text-white"
+
+    <div class="flex items-center justify-between">
+      <MoodSelector
+        class="mb-2 ml-2 w-[224px] pt-2"
+        :currentJournal="currentJournal"
+        :selectJournal="selectJournal"
       />
+      <!-- Information button -->
+      <div
+        class="group relative float-right flex h-[15%] items-center p-1 drop-shadow-[1px_1px_2px_rgba(0,0,0)] hover:bg-black/[.5]"
+      >
+        <div class="invisible text-white group-hover:visible">
+          <p class="text-right text-xs">{{ banner?.reference }}</p>
+          <p class="text-right text-xs">
+            Quotes by <a href="https://www.brainyquote.com/">BrainyQuote</a>
+          </p>
+        </div>
+        <UIcon
+          name="i-heroicons-information-circle-20-solid"
+          class="h-5 w-5 p-2 text-white"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -45,6 +53,7 @@ import { _backgroundImage } from "#tailwind-config/theme";
 
 const props = defineProps({
   currentJournal: Object,
+  selectJournal: Function,
 });
 
 const banner = ref(null);
