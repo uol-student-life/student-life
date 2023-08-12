@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
         equals: (filter.filters?.status as MilestoneStatus) || undefined,
       },
       journals: {
-        some: {
+        every: {
           journalId: {
             equals:
               (parseInt(filter.filters?.journalId as string) as number) ||

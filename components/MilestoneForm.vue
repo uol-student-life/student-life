@@ -3,7 +3,26 @@ import { onMounted } from "vue";
 const description = ref("");
 const toast = useToast();
 
-const createMilestone = async () => {};
+const createMilestone = async () => {
+  if (!description.value) {
+    return;
+  }
+  const response = await $fetch("/api/milestone", {
+    method: "POST",
+    body: {
+      description: description.value,
+    },
+  }).catch((error) => {
+    toast.add({
+      title: "Fail to create milestone",
+      description: error.data.message,
+      color: "red",
+      icon: "i-heroicons-exclamation-circle",
+    });
+  });
+
+  return response;
+};
 
 const updateMilestone = async (id) => {
   const response = await $fetch("/api/milestone/update", {

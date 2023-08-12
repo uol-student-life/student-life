@@ -24,6 +24,8 @@ const showJournals = (milestone) => {
 
   if (journalsIds.length) {
     getJournals(journalsIds);
+  } else {
+    journals.value = [];
   }
 };
 
