@@ -33,13 +33,15 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const updateContent = await prisma.content.update({
-    where: { id: existingJournal.contentId },
-    data: {
-      html: Buffer.from(body.html, "utf8"),
-      lexical: Buffer.from(body.lexical, "utf8"),
-    },
-  });
+  if (body.html && body.lexical) {
+    await prisma.content.update({
+      where: { id: existingJournal.contentId },
+      data: {
+        html: Buffer.from(body.html, "utf8"),
+        lexical: Buffer.from(body.lexical, "utf8"),
+      },
+    });
+  }
 
   let updateJournalData: Prisma.JournalUpdateInput = {
     updatedAt: new Date(),

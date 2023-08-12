@@ -140,7 +140,10 @@ const getSelectedPeriod = () => {
       </aside>
 
       <div class="flex flex-col overflow-auto border-x border-x-neutral-200">
-        <Banner :currentJournal="currentJournal" />
+        <Banner
+          :currentJournal="currentJournal"
+          :selectJournal="handleJournalSelection"
+        />
         <ClientOnly>
           <Editor
             :currentJournal="currentJournal"

@@ -19,7 +19,7 @@
       </UPopover>
     </template>
 
-    <div class="overflow-auto space-y-6">
+    <div class="space-y-6 overflow-auto">
       <MilestoneSection
         :milestones="milestonesInProgress"
         title="In Progress"
