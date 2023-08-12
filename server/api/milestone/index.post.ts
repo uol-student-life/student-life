@@ -13,39 +13,13 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  if (!body.to?.journalId) {
-    throw createError({
-      statusCode: 400,
-      message: "body.journalId is required",
-    });
-  }
-
-  const journal = await prisma.journal.findUnique({
-    where: { id: parseInt(body.to.journalId as string) as number },
-    select: { id: true },
-  });
-
-  if (!journal) {
-    throw createError({
-      statusCode: 400,
-      message: "Journal not found",
-    });
-  }
-
   if (body.status && !["INPROGRESS", "COMPLETED"].includes(body.status)) {
     body.status = "INPROGRESS";
   }
 
-  let createMilestone: Prisma.MilestonesOnJournalsCreateInput = {
-    journal: {
-      connect: { id: journal.id },
-    },
-    milestone: {
-      create: {
-        description: body.description,
-        status: (body.status as MilestoneStatus) || MilestoneStatus.INPROGRESS,
-      },
-    },
+  let createMilestone: Prisma.MilestoneCreateInput = {
+    description: body.description,
+    status: (body.status as MilestoneStatus) || MilestoneStatus.INPROGRESS,
   };
 
   if (body.create?.task && body.to?.taskId) {
@@ -67,7 +41,7 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    createMilestone.milestone.create!.tasks = {
+    createMilestone.tasks = {
       connect: {
         id: task.id,
       },
@@ -101,22 +75,43 @@ export default defineEventHandler(async (event) => {
       };
     }
 
-    createMilestone.milestone.create!.tasks = {
+    createMilestone.tasks = {
       create: createTask,
     };
   }
 
-  const newMilestoneOnJournal = await prisma.milestonesOnJournals.create({
+  const newMilestone = await prisma.milestone.create({
     data: createMilestone,
   });
 
-  const newMilestone = prisma.milestone.findUnique({
-    where: { id: newMilestoneOnJournal.milestoneId },
+  if (body.to?.journalId) {
+    const journal = await prisma.journal.findUnique({
+      where: { id: parseInt(body.to.journalId as string) as number },
+      select: { id: true },
+    });
+
+    if (!journal) {
+      throw createError({
+        statusCode: 400,
+        message: "Journal not found",
+      });
+    }
+
+    await prisma.milestonesOnJournals.create({
+      data: {
+        journalId: journal.id,
+        milestoneId: newMilestone.id,
+      },
+    });
+  }
+
+  const milestone = await prisma.milestone.findUnique({
+    where: { id: newMilestone.id },
     include: {
       journals: true,
       tasks: true,
     },
   });
 
-  return newMilestone;
+  return milestone;
 });
