@@ -5,16 +5,7 @@
       <UPopover :popper="{ placement: 'bottom' }">
         <UButton color="gray" icon="i-heroicons-plus-circle" variant="link" />
         <template #panel="{ close }">
-          <form>
-            <div class="align-center flex justify-between gap-4 p-6">
-              <UInput
-                type="milestone"
-                color="gray"
-                placeholder="New Milestone"
-              />
-              <UButton color="gray" type="submit"> Add Milestone </UButton>
-            </div>
-          </form>
+          <MilestoneForm :onSubmit="() => onMilestoneCreated({ close })" />
         </template>
       </UPopover>
     </template>
@@ -49,6 +40,11 @@ const milestonesInProgress = computed(() => {
 const milestonesCompleted = computed(() => {
   return props.milestones.filter((item) => item.status !== "INPROGRESS");
 });
+
+const onMilestoneCreated = ({ close }) => {
+  close();
+  props.getMilestonesList();
+};
 
 const props = defineProps({
   milestones: Array,
