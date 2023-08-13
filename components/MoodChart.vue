@@ -57,7 +57,7 @@ const toast = useToast();
 
 const selectedInterval = ref(intervalsOptions[0].value);
 const selectedYear = ref(years[0]);
-const selectedMonth = ref(months[0].value);
+const selectedMonth = ref(months[new Date().getMonth()].value);
 const currentData = ref([]);
 let moodChart;
 
