@@ -1,13 +1,21 @@
-const { exec } = require("child_process");
+const { exec, ExecException } = require("child_process");
 
-export function execScript(script) {
+interface Result {
+  stdout: string;
+  stderr: string;
+}
+
+export function execScript(script: string): Promise<Result> {
   return new Promise((resolve, reject) => {
-    exec(script, (error, stdout, stderr) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve({ stdout, stderr });
+    exec(
+      script,
+      (error: typeof ExecException | null, stdout: string, stderr: string) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve({ stdout, stderr });
+        }
       }
-    });
+    );
   });
 }

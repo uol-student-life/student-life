@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, Page } from "@playwright/test";
 import { resetDB } from "../helpers/reset-db";
 import { fakeDate } from "../e2e-utils";
 
@@ -85,9 +85,13 @@ test.describe("Journals", () => {
   });
 });
 
-async function createJournal(page, { text }) {
+interface CreateJournalOptions {
+  text: string;
+}
+
+async function createJournal(page: Page, options: CreateJournalOptions) {
   // create new journal
   await page.waitForSelector('div[contenteditable="true"]');
   await page.focus('div[contenteditable="true"]');
-  await page.keyboard.type(text);
+  await page.keyboard.type(options.text);
 }

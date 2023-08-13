@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
 
   if (ids) {
     where.id = {
-      in: ids.split(",").map(Number),
+      in: (ids as string).split(",").map(Number),
     };
   }
 
