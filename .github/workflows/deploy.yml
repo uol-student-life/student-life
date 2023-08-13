@@ -1,0 +1,21 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - 'test-deploy-to-azure-vm'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Deploy Stack
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            bash ~/deploy.sh
