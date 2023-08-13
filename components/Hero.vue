@@ -3,11 +3,11 @@
     <div></div>
     <div class="text-center">
       <span
-        class="text-md font-semibold text-white drop-shadow-[2px_2px_4px_rgba(0,0,0)]"
+        class="text-md text-white drop-shadow-[2.5px_2.5px_2px_rgba(0,0,0,1)]"
         >Journal /
       </span>
       <span
-        class="text-md font-semibold text-white drop-shadow-[2px_2px_4px_rgba(0,0,0)]"
+        class="text-md font-semibold text-white drop-shadow-[2.5px_2.5px_2px_rgba(0,0,0,1)]"
         data-testid="current-journal-date"
         >{{ getFormattedDate() }}</span
       >
