@@ -1,16 +1,47 @@
 import { prisma } from "../../db";
 import { stripTime } from "../../utils/date";
-import { startOfMonth, endOfMonth, formatISO } from "date-fns";
+import {
+  startOfMonth,
+  endOfMonth,
+  formatISO,
+  startOfWeek,
+  endOfWeek,
+  subWeeks,
+} from "date-fns";
 import type { Prisma } from "@prisma/client";
 
 export default defineEventHandler(async (event) => {
-  const { month, year, ids } = getQuery(event);
+  const { month, year, ids, week } = getQuery(event);
   const where: Prisma.JournalWhereInput = {};
 
   if (month && year) {
     where.journalDate = {
       gte: formatISO(startOfMonth(new Date(year as number, month as number))),
       lte: formatISO(endOfMonth(new Date(year as number, month as number))),
+    };
+  } else if (month) {
+    where.journalDate = {
+      gte: formatISO(
+        startOfMonth(new Date(new Date().getFullYear(), month as number))
+      ),
+      lte: formatISO(
+        endOfMonth(new Date(new Date().getFullYear(), month as number))
+      ),
+    };
+  } else if (year) {
+    where.journalDate = {
+      gte: formatISO(startOfMonth(new Date(year as number, 0))),
+      lte: formatISO(endOfMonth(new Date(year as number, 11))),
+    };
+  }
+
+  if (week) {
+    // get journals for the last week
+    const lastWeekStart = startOfWeek(subWeeks(new Date(), 1));
+    const lastWeekEnd = endOfWeek(subWeeks(new Date(), 1));
+    where.journalDate = {
+      gte: formatISO(lastWeekStart),
+      lte: formatISO(lastWeekEnd),
     };
   }
 

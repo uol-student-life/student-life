@@ -136,7 +136,7 @@ const getSelectedPeriod = () => {
           :showNextMonth="showNextMonth"
           :selectedPeriod="getSelectedPeriod()"
         />
-        <MoodTracker />
+        <MoodTracker :journals="journals" />
       </aside>
 
       <div class="flex flex-col overflow-auto border-x border-x-neutral-200">
