@@ -3,6 +3,7 @@ name: deploy
 on:
   push:
     branches:
+      - 'main'
       - 'test-deploy-to-azure-vm'
 
 jobs:
