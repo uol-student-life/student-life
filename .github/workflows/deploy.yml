@@ -18,4 +18,4 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            bash ~/deploy.sh
+            bash /home/student-life/deploy.sh
