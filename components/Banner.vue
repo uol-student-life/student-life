@@ -1,25 +1,25 @@
 <template>
   <div
-    class="basis-[35%] items-center bg-center"
+    class="basis-[35%] items-center bg-gray-900 bg-cover bg-center"
     v-bind:style="{ backgroundImage: 'url(' + banner?.link + ')' }"
   >
     <!-- Hero -->
-    <div class="h-[15%] text-center backdrop-blur-2xl">
+    <div class="h-[15%] bg-gradient-to-b from-black/60 to-black/0 text-center">
       <Hero :date="currentJournal?.journalDate" />
     </div>
     <!-- Quote -->
     <div class="flex h-[70%] w-full items-center justify-center">
-      <div class="w-2/3 rounded-lg backdrop-blur-2xl">
-        <h2
-          class="m-2 text-center text-lg font-semibold text-slate-100 drop-shadow-[2px_2px_4px_rgba(0,0,0)]"
+      <div class="w-2/3 rounded-lg">
+        <span
+          class="m-2 block pb-4 text-center text-3xl font-extralight leading-normal text-slate-100 drop-shadow-[2.5px_2.5px_2px_rgba(0,0,0,1)]"
         >
           {{ quote?.quote }}
-        </h2>
-        <p
-          class="text-md m-2 text-right font-semibold text-slate-100 drop-shadow-[2px_2px_4px_rgba(0,0,0)]"
+        </span>
+        <span
+          class="m-2 block text-right text-lg text-slate-100 drop-shadow-[2.5px_2.5px_2px_rgba(0,0,0,1)]"
         >
-          {{ quote?.author }}
-        </p>
+          – {{ quote?.author }}
+        </span>
       </div>
     </div>
 
