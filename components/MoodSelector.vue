@@ -20,7 +20,7 @@ const mood = [
     moodIcon: Relaxed,
   },
   {
-    id: "DEPRESSED",
+    id: "STRESS",
     label: "Stressed",
     moodIcon: Stressed,
   },

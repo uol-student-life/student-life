@@ -153,7 +153,7 @@ const updateCurrentData = (journals = []) => {
 
   const moodMap = {
     DEPRESSED: 0,
-    STRESSED: 1,
+    STRESS: 1,
     RELAXED: 2,
     MOTIVATED: 3,
   };
