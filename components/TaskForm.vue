@@ -13,6 +13,8 @@ const description = ref("");
 const noDueDate = ref(true);
 const dueDate = ref(null);
 const milestone = ref(null);
+const isSaving = ref(false);
+const isLoadingMilestones = ref(false);
 
 whenever(
   () => noDueDate.value,
@@ -22,6 +24,7 @@ whenever(
 );
 
 const createTask = async () => {
+  isSaving.value = true;
   const response = await $fetch("/api/task", {
     method: "POST",
     body: {
@@ -30,19 +33,22 @@ const createTask = async () => {
       journalId: props?.journalId || null,
       milestoneId: milestone.value,
     },
-  }).catch((error) => {
-    toast.add({
-      title: "Fail to save task",
-      description: error.data.message,
-      color: "red",
-      icon: "i-heroicons-exclamation-circle",
-    });
-  });
+  })
+    .catch((error) => {
+      toast.add({
+        title: "Fail to save task",
+        description: error.data.message,
+        color: "red",
+        icon: "i-heroicons-exclamation-circle",
+      });
+    })
+    .finally(() => (isSaving.value = false));
 
   return response;
 };
 
 const updateTask = async (id) => {
+  isSaving.value = true;
   const response = await $fetch("/api/task/update", {
     method: "POST",
     params: {
@@ -54,29 +60,34 @@ const updateTask = async (id) => {
       journalId: props?.journalId || null,
       milestoneId: milestone.value,
     },
-  }).catch((error) => {
-    toast.add({
-      title: "Fail to update task",
-      description: error.data.message,
-      color: "red",
-      icon: "i-heroicons-exclamation-circle",
-    });
-  });
+  })
+    .catch((error) => {
+      toast.add({
+        title: "Fail to update task",
+        description: error.data.message,
+        color: "red",
+        icon: "i-heroicons-exclamation-circle",
+      });
+    })
+    .finally(() => (isSaving.value = false));
 
   return response;
 };
 
 const getMilestones = async () => {
+  isLoadingMilestones.value = true;
   const response = await $fetch("/api/milestones", {
     method: "POST",
-  }).catch((error) => {
-    toast.add({
-      title: "Fail to get milestones",
-      description: error.data.message,
-      color: "red",
-      icon: "i-heroicons-exclamation-circle",
-    });
-  });
+  })
+    .catch((error) => {
+      toast.add({
+        title: "Fail to get milestones",
+        description: error.data.message,
+        color: "red",
+        icon: "i-heroicons-exclamation-circle",
+      });
+    })
+    .finally(() => (isLoadingMilestones.value = false));
 
   if (response) {
     milestonesList.value = response;
@@ -154,6 +165,8 @@ const attrs = [
         color="gray"
         variant="outline"
         placeholder="Select Milestone"
+        :disabled="!milestonesList.length"
+        :loading="isLoadingMilestones"
       />
       <UTextarea
         v-model="description"
@@ -194,6 +207,7 @@ const attrs = [
           class="w-full justify-center bg-slate-400 p-3 text-center text-gray-50 hover:bg-slate-500 disabled:text-stone-300"
           type="submit"
           :disabled="!description || !milestone"
+          :loading="isSaving"
         >
           <span v-if="props.id">Update task</span>
           <span v-else>Add task</span>

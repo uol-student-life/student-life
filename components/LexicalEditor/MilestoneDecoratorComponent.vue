@@ -1,6 +1,6 @@
 <script setup>
 import { watch } from "vue";
-import { StarIcon } from "@heroicons/vue/24/outline";
+import { StarIcon, ArrowPathIcon } from "@heroicons/vue/24/outline";
 import { $getNodeByKey } from "lexical";
 import { updatedMilestone } from "~/stores/updatedMilestone";
 import { removedMilestone } from "~/stores/removedMilestone";
@@ -38,7 +38,8 @@ const props = defineProps({
 
 <template>
   <UBadge color="orange" variant="solid">
-    <StarIcon class="mr-1 h-4 w-4" />
+    <StarIcon v-if="props.description" class="mr-1 h-4 w-4" />
+    <ArrowPathIcon v-else class="mr-1 h-4 w-4 animate-spin" />
     <span data-testid="editor-milestone">{{ props.description }}</span>
   </UBadge>
 </template>

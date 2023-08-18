@@ -1,6 +1,7 @@
 <script setup>
 import { inject } from "vue";
 import { parseISO, differenceInDays } from "date-fns";
+import { ArrowPathIcon } from "@heroicons/vue/24/outline";
 import { updatedTask } from "../stores/updatedTask";
 import { removedTask } from "../stores/removedTask";
 // use inject here as we need this function in the lexical decorator component.
@@ -122,7 +123,11 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="group flex items-center justify-between gap-4" data-testid="task">
+  <div
+    class="group flex items-center justify-between gap-4"
+    data-testid="task"
+    v-if="description"
+  >
     <UCheckbox
       :modelValue="checked"
       @update:modelValue="
@@ -165,6 +170,10 @@ const props = defineProps({
         @click="onClick"
       />
     </div>
+  </div>
+
+  <div v-else class="flex w-full items-center gap-2 text-sm text-stone-400">
+    <ArrowPathIcon class="h-4 w-4 animate-spin" /> loading task
   </div>
 
   <AlertDialog
