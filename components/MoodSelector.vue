@@ -101,7 +101,7 @@ const props = defineProps({
 });
 </script>
 <template>
-  <div>
+  <div data-testid="mood-selector">
     <USelectMenu
       modelValue="currentMoodId"
       @update:modelValue="

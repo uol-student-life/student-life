@@ -1,6 +1,6 @@
 import { test, expect, Page } from "@playwright/test";
 import { resetDB } from "../helpers/reset-db";
-import { fakeDate } from "../e2e-utils";
+import { fakeDate, createJournal } from "../e2e-utils";
 
 test.afterAll(async () => {
   await resetDB();
@@ -84,14 +84,3 @@ test.describe("Journals", () => {
     ).toBe("11th July 2023");
   });
 });
-
-interface CreateJournalOptions {
-  text: string;
-}
-
-async function createJournal(page: Page, options: CreateJournalOptions) {
-  // create new journal
-  await page.waitForSelector('div[contenteditable="true"]');
-  await page.focus('div[contenteditable="true"]');
-  await page.keyboard.type(options.text);
-}
