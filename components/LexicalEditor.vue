@@ -75,7 +75,7 @@ function onChange(editorState, editor) {
 }
 
 function getWordCount(content = "") {
-  return content.split(" ").length - 1;
+  return content.trim().split(/\s+/).length;
 }
 
 // Two-way binding
