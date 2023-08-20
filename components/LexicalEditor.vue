@@ -27,6 +27,7 @@ import HashtagPlugin from "./LexicalEditor/HashtagPlugin";
 import { MilestoneNode } from "./LexicalEditor/MilestoneNode";
 import { TaskNode } from "./LexicalEditor/TaskNode";
 import { $getRoot } from "lexical";
+import { wordCount } from "../stores/wordCount";
 
 const config = {
   editable: true,
@@ -67,8 +68,14 @@ function onChange(editorState, editor) {
       lexical: JSON.stringify(editorState.toJSON()),
       html: isEmpty() ? "" : $generateHtmlFromNodes(editor),
     };
+
+    wordCount.value = getWordCount($getRoot().getTextContent());
     emit("onChange", data);
   });
+}
+
+function getWordCount(content = "") {
+  return content.trim().split(/\s+/).length;
 }
 
 // Two-way binding

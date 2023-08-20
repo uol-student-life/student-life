@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, provide } from "vue";
 import { isSameDay, getMonth, getYear, subMonths, addMonths } from "date-fns";
+import Footer from "./components/Footer";
 
 // Let's keep it light mode for now.
 const colorMode = useColorMode();
@@ -167,8 +168,6 @@ const getSelectedPeriod = () => {
       </aside>
     </main>
 
-    <footer class="border-t border-t-neutral-200 p-2 text-sm text-neutral-400">
-      240 words
-    </footer>
+    <Footer :milestones="milestones?.length" />
   </div>
 </template>
