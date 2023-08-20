@@ -44,3 +44,14 @@ export async function createMilestone(
     )
   ).toBeVisible({ timeout: 2000 });
 }
+
+interface CreateJournalOptions {
+  text: string;
+}
+
+export async function createJournal(page: Page, options: CreateJournalOptions) {
+  // create new journal
+  await page.waitForSelector('div[contenteditable="true"]');
+  await page.focus('div[contenteditable="true"]');
+  await page.keyboard.type(options.text);
+}
