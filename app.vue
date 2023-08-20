@@ -100,7 +100,7 @@ const handleJournalSelection = async (journal) => {
 };
 
 const setCurrentJournal = () => {
-  const currentDate = new Date();
+  const currentDate = new Date(new Date().toISOString().split("T")[0]);
   const journal = journals.value?.find((journal) => {
     return isSameDay(new Date(journal.journalDate), currentDate);
   });
@@ -109,7 +109,7 @@ const setCurrentJournal = () => {
     currentJournal.value = journal;
   } else {
     currentJournal.value = {
-      journalDate: new Date().toISOString(),
+      journalDate: currentDate.toISOString(),
     };
   }
 };

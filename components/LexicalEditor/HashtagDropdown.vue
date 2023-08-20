@@ -1,7 +1,12 @@
 <script setup>
 import { $getSelection } from "lexical";
 import { getSelectedNode } from "~/components/LexicalEditor/utils";
-import { PlusIcon, StarIcon, CheckIcon } from "@heroicons/vue/24/outline";
+import {
+  PlusIcon,
+  StarIcon,
+  CheckIcon,
+  ArrowPathIcon,
+} from "@heroicons/vue/24/outline";
 import { INSERT_MILESTONE_COMMAND } from "./MilestoneNode";
 import { CREATE_TASK_COMMAND, INSERT_TASK_COMMAND } from "./TaskNode";
 import { useEditor } from "lexical-vue";
@@ -11,9 +16,10 @@ import { vOnClickOutside } from "@vueuse/components";
 
 const editor = useEditor();
 const toast = useToast();
+const isCreatingMilestone = ref(false);
 
 const createMilestone = async ({ name }) => {
-  hideHashtagDropdown();
+  isCreatingMilestone.value = true;
   const response = await $fetch("/api/milestone", {
     method: "POST",
     body: {
@@ -22,15 +28,18 @@ const createMilestone = async ({ name }) => {
         journalId: props.currentJournal.id,
       },
     },
-  }).catch((error) => {
-    toast.add({
-      title: "Fail to save milestone",
-      description: error.data.message,
-      color: "red",
-      icon: "i-heroicons-exclamation-circle",
-    });
-  });
+  })
+    .catch((error) => {
+      toast.add({
+        title: "Fail to save milestone",
+        description: error.data.message,
+        color: "red",
+        icon: "i-heroicons-exclamation-circle",
+      });
+    })
+    .finally(() => (isCreatingMilestone.value = false));
 
+  hideHashtagDropdown();
   if (response?.id) {
     props.milestoneUpdated();
     editor.dispatchCommand(INSERT_MILESTONE_COMMAND, {
@@ -112,19 +121,32 @@ const props = defineProps({
     v-on-click-outside="hideHashtagDropdown"
   >
     <ul class="max-h-[300px] overflow-auto">
-      <li class="cursor-pointer rounded px-2 py-1 hover:bg-stone-200">
+      <li class="cursor-pointer rounded hover:bg-stone-200">
         <button
-          class="flex w-full items-center gap-2"
+          class="w-full px-2 py-1"
           @click="addMilestone"
           data-testid="editor-add-milestone"
+          :disabled="isCreatingMilestone"
         >
-          <PlusIcon class="h-4 w-4" /> add milestone
+          <div
+            v-if="!isCreatingMilestone"
+            class="flex w-full items-center gap-2"
+          >
+            <PlusIcon class="h-4 w-4" /> add milestone
+          </div>
+
+          <div v-else class="flex w-full items-center gap-2">
+            <ArrowPathIcon class="h-4 w-4 animate-spin" /> adding milestone
+          </div>
         </button>
       </li>
 
-      <li class="cursor-pointer rounded px-2 py-1 hover:bg-stone-200">
+      <li
+        class="cursor-pointer rounded hover:bg-stone-200"
+        v-if="!isCreatingMilestone"
+      >
         <button
-          class="flex w-full items-center gap-2"
+          class="flex w-full items-center gap-2 px-2 py-1"
           @click="addTask"
           data-testid="editor-add-task"
         >
@@ -134,6 +156,7 @@ const props = defineProps({
       <li
         class="flex cursor-pointer items-center justify-between gap-2 rounded px-2 py-1 hover:bg-stone-200"
         v-for="item in items"
+        v-if="!isCreatingMilestone"
         :key="item.id"
         @click="handleDropdownItemClick(item)"
       >

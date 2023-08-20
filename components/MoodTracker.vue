@@ -3,7 +3,7 @@
     <div class="px-6">
       <!-- Mood chart -->
       <div>
-        <MoodChart class="pb-4" :journals="journals" />
+        <MoodChart :journals="journals" />
       </div>
     </div>
   </Section>

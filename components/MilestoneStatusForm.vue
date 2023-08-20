@@ -2,6 +2,7 @@
 import { onMounted } from "vue";
 const status = ref("");
 const toast = useToast();
+const isLoading = ref(false);
 
 const STATUSES = [
   {
@@ -15,6 +16,7 @@ const STATUSES = [
 ];
 
 const updateStatus = async (id) => {
+  isLoading.value = true;
   const response = await $fetch("/api/milestone/update", {
     method: "POST",
     params: {
@@ -24,12 +26,14 @@ const updateStatus = async (id) => {
       status: status.value,
     },
   }).catch((error) => {
-    toast.add({
-      title: "Fail to update milestone",
-      description: error.data.message,
-      color: "red",
-      icon: "i-heroicons-exclamation-circle",
-    });
+    toast
+      .add({
+        title: "Fail to update milestone",
+        description: error.data.message,
+        color: "red",
+        icon: "i-heroicons-exclamation-circle",
+      })
+      .finally(() => (isLoading.value = false));
   });
 
   return response;
@@ -75,7 +79,12 @@ const props = defineProps({
         variant="outline"
         placeholder="Select milestone status"
       />
-      <UButton color="gray" type="submit" :disabled="!status">
+      <UButton
+        color="gray"
+        type="submit"
+        :disabled="!status"
+        :loading="isLoading"
+      >
         Update status
       </UButton>
     </div>

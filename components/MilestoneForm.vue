@@ -2,29 +2,35 @@
 import { onMounted } from "vue";
 const description = ref("");
 const toast = useToast();
+const isLoading = ref(false);
 
 const createMilestone = async () => {
   if (!description.value) {
     return;
   }
+
+  isLoading.value = true;
   const response = await $fetch("/api/milestone", {
     method: "POST",
     body: {
       description: description.value,
     },
-  }).catch((error) => {
-    toast.add({
-      title: "Fail to create milestone",
-      description: error.data.message,
-      color: "red",
-      icon: "i-heroicons-exclamation-circle",
-    });
-  });
+  })
+    .catch((error) => {
+      toast.add({
+        title: "Fail to create milestone",
+        description: error.data.message,
+        color: "red",
+        icon: "i-heroicons-exclamation-circle",
+      });
+    })
+    .finally(() => (isLoading.value = false));
 
   return response;
 };
 
 const updateMilestone = async (id) => {
+  isLoading.value = true;
   const response = await $fetch("/api/milestone/update", {
     method: "POST",
     params: {
@@ -33,14 +39,16 @@ const updateMilestone = async (id) => {
     body: {
       description: description.value,
     },
-  }).catch((error) => {
-    toast.add({
-      title: "Fail to update milestone",
-      description: error.data.message,
-      color: "red",
-      icon: "i-heroicons-exclamation-circle",
-    });
-  });
+  })
+    .catch((error) => {
+      toast.add({
+        title: "Fail to update milestone",
+        description: error.data.message,
+        color: "red",
+        icon: "i-heroicons-exclamation-circle",
+      });
+    })
+    .finally(() => (isLoading.value = false));
 
   return response;
 };
@@ -87,7 +95,7 @@ const props = defineProps({
         color="gray"
         placeholder="Milestone description"
       />
-      <UButton color="gray" type="submit">
+      <UButton color="gray" type="submit" :loading="isLoading">
         <span v-if="props.id">Update milestone</span>
         <span v-else>Add milestone</span>
       </UButton>

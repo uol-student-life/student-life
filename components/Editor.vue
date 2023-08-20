@@ -1,7 +1,9 @@
 <script setup>
 import AlertDialog from "./AlertDialog";
+import { ArrowPathIcon, CheckCircleIcon } from "@heroicons/vue/24/outline";
 import { debounce } from "lodash";
 import { onUnmounted } from "vue";
+import { parseISO, format } from "date-fns";
 
 const toast = useToast();
 
@@ -13,6 +15,7 @@ const journalContent = reactive({
 const isAlertDialogOpen = ref(false);
 const isSaving = ref(false);
 const isDeleting = ref(false);
+const journalUpdatedAt = ref(null);
 
 const saveJournal = async () => {
   if (props.currentJournal?.id) {
@@ -54,6 +57,7 @@ const createJournal = async () => {
         icon: "i-heroicons-check-badge",
       });
       props.selectJournal(response);
+      journalUpdatedAt.value = response.updatedAt;
     })
     .catch((error) => {
       toast.add({
@@ -94,6 +98,9 @@ const updateJournal = async () => {
     });
   });
 
+  if (response) {
+    journalUpdatedAt.value = response.updatedAt;
+  }
   props.journalUpdated();
 };
 
@@ -144,20 +151,42 @@ const props = defineProps({
 const onCancelDialog = () => {
   isAlertDialogOpen.value = false;
 };
+
+const getJournalUpdatedDate = () => {
+  if (!journalUpdatedAt) {
+    return;
+  }
+  const dateObject = parseISO(journalUpdatedAt.value);
+  return format(dateObject, "HH:mm:ss");
+};
 </script>
 
 <template>
   <div>
-    <div class="flex justify-end gap-4 px-8 pt-8">
-      <UButton
-        v-if="props.currentJournal?.id"
-        @click="isAlertDialogOpen = true"
-        color="red"
-        variant="outline"
-        icon="i-heroicons-trash"
-      >
-        Delete
-      </UButton>
+    <div class="flex items-center justify-between gap-4 px-8 pt-8">
+      <div class="text-sm text-stone-400">
+        <div v-if="isSaving" class="flex items-center gap-2">
+          <ArrowPathIcon class="h-4 w-4 animate-spin" /> Saving
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-4">
+        <div class="text-sm text-stone-400">
+          <div v-if="journalUpdatedAt" class="flex items-center gap-2">
+            <CheckCircleIcon class="h-4 w-4" /> Last updated on
+            {{ getJournalUpdatedDate() }}
+          </div>
+        </div>
+
+        <UButton
+          v-if="props.currentJournal?.id"
+          @click="isAlertDialogOpen = true"
+          color="red"
+          variant="outline"
+          icon="i-heroicons-trash"
+        >
+          Delete
+        </UButton>
+      </div>
     </div>
 
     <AlertDialog

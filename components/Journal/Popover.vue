@@ -19,6 +19,7 @@ const colorMode = useColorMode();
 const isDark = computed(() => colorMode.value === "dark");
 
 const toast = useToast();
+const isAdding = ref(false);
 
 const date = computed({
   get: () => props.modelValue,
@@ -42,6 +43,7 @@ const addJournal = async (event: Event) => {
 };
 
 async function createJournalByDate(date: Date) {
+  isAdding.value = true;
   const response = await $fetch("/api/journal", {
     method: "POST",
     body: {
@@ -49,31 +51,36 @@ async function createJournalByDate(date: Date) {
       html: "",
       lexical: "",
     },
-  }).catch((error) => {
-    toast.add({
-      title: "Fail to add journal",
-      description: error.data.message,
-      color: "red",
-      icon: "i-heroicons-exclamation-circle",
-    });
-  });
-
-  return response;
-}
-
-async function getJournalByDate(date: Date) {
-  const response = await $fetch("/api/journal", {
-    params: {
-      journalDate: date.toISOString(),
-    },
-  }).catch((error) => {
-    if (error.status !== 404) {
+  })
+    .catch((error) => {
       toast.add({
         title: "Fail to add journal",
         description: error.data.message,
         color: "red",
         icon: "i-heroicons-exclamation-circle",
       });
+    })
+    .finally(() => (isAdding.value = false));
+
+  return response;
+}
+
+async function getJournalByDate(date: Date) {
+  isAdding.value = true;
+  const response = await $fetch("/api/journal", {
+    params: {
+      journalDate: date.toISOString(),
+    },
+  }).catch((error) => {
+    if (error.status !== 404) {
+      toast
+        .add({
+          title: "Fail to add journal",
+          description: error.data.message,
+          color: "red",
+          icon: "i-heroicons-exclamation-circle",
+        })
+        .finally(() => (isAdding.value = false));
     }
   });
 
@@ -110,7 +117,9 @@ const attrs = [
         <div class="align-center flex justify-between gap-4 p-6">
           <UInput color="gray" :value="inputValue" v-on="inputEvents" />
 
-          <UButton color="gray" type="submit"> Add journal </UButton>
+          <UButton color="gray" type="submit" :loading="isAdding">
+            Add journal
+          </UButton>
         </div>
       </form>
     </template>
