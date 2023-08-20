@@ -106,7 +106,7 @@ const attrs = [
     :popover="{ placement: 'bottom' }"
   >
     <template #default="{ inputValue, inputEvents }">
-      <form @submit="addJournal">
+      <form @submit="addJournal" data-testid="journal-creation-form">
         <div class="align-center flex justify-between gap-4 p-6">
           <UInput color="gray" :value="inputValue" v-on="inputEvents" />
 

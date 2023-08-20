@@ -83,6 +83,22 @@ test.describe("Journals", () => {
       await page.getByTestId("current-journal-date").textContent()
     ).toBe("11th July 2023");
   });
+
+  test.use({
+    timezoneId: "America/Phoenix",
+  });
+  test("tz", async ({ page }) => {
+    await page.goto("/");
+    await page.getByTestId("create-journal").click();
+    const journalForm = page.getByTestId("journal-creation-form");
+    await journalForm.locator("input").fill("08/01/2023");
+    await page.getByRole("button", { name: "Add journal" }).click();
+    await expect(
+      page.locator(
+        '[data-testid="current-journal-date"]:has-text("1st August 2023")'
+      )
+    ).toBeVisible();
+  });
 });
 
 interface CreateJournalOptions {
