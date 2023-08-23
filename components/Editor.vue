@@ -187,9 +187,9 @@ const getJournalUpdatedDate = () => {
         >
           Delete
         </UButton>
-        
+
         <!-- Information button -->
-        <UPopover mode="hover">
+        <UPopover>
           <UIcon
             name="i-heroicons-question-mark-circle"
             class="h-5 w-5 p-2 text-stone-400"
