@@ -164,6 +164,7 @@ const getJournalUpdatedDate = () => {
 <template>
   <div>
     <div class="flex items-center justify-between gap-4 px-8 pt-8">
+      
       <div class="text-sm text-stone-400">
         <div v-if="isSaving" class="flex items-center gap-2">
           <ArrowPathIcon class="h-4 w-4 animate-spin" /> Saving
@@ -176,7 +177,7 @@ const getJournalUpdatedDate = () => {
             {{ getJournalUpdatedDate() }}
           </div>
         </div>
-
+        
         <UButton
           v-if="props.currentJournal?.id"
           @click="isAlertDialogOpen = true"
@@ -186,6 +187,22 @@ const getJournalUpdatedDate = () => {
         >
           Delete
         </UButton>
+        <!-- Information button -->
+        <div
+          class="group relative float-right flex h-[15%] items-center p-1]"
+        >
+          <div class="hidden text-stone-400 group-hover:inline-block">
+            <div class="text-xs p-2 bg-stone-100 border-solid border border-stone-200">
+              <p>To create milestones use: <b>#</b></p>
+              <p>Text editor with basic markdown support</p>
+              <p></p>
+            </div>
+          </div>
+          <UIcon
+            name="i-heroicons-question-mark-circle"
+            class="h-5 w-5 p-2 text-stone-400"
+          />
+        </div>
       </div>
     </div>
 
