@@ -187,22 +187,20 @@ const getJournalUpdatedDate = () => {
         >
           Delete
         </UButton>
+        
         <!-- Information button -->
-        <div
-          class="group relative float-right flex h-[15%] items-center p-1]"
-        >
-          <div class="hidden text-stone-400 group-hover:inline-block">
-            <div class="text-xs p-2 bg-stone-100 border-solid border border-stone-200">
-              <p>To create milestones use: <b>#</b></p>
-              <p>Text editor with basic markdown support</p>
-              <p></p>
-            </div>
-          </div>
+        <UPopover mode="hover">
           <UIcon
             name="i-heroicons-question-mark-circle"
             class="h-5 w-5 p-2 text-stone-400"
           />
-        </div>
+          <template #panel>
+            <div class="text-xs text-stone-400 p-2 bg-stone-100 border-solid border border-stone-200">
+              <p>To create milestones use: <b>#</b></p>
+              <p>Text editor with basic <b>markdown</b> support</p>
+            </div>
+          </template>
+        </UPopover>
       </div>
     </div>
 
