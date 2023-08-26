@@ -2,7 +2,12 @@
   <Section title="Journal">
     <template #suffix>
       <UPopover :popper="{ placement: 'bottom' }">
-        <UButton color="gray" icon="i-heroicons-plus-circle" variant="link" />
+        <UButton
+          color="gray"
+          icon="i-heroicons-plus-circle"
+          variant="link"
+          data-testid="create-journal"
+        />
 
         <template #panel="{ close }">
           <JournalPopover
