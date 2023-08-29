@@ -35,7 +35,8 @@ const addJournal = async (event: Event) => {
   if (journal) {
     props.selectJournal(journal);
   } else {
-    const journal = await createJournalByDate(date.value);
+    // set the hours at the end of the day to be saved as next day on UTC time in the database
+    const journal = await createJournalByDate(new Date(date.value.setHours(23,59,59)));
     props.selectJournal(journal);
   }
 
